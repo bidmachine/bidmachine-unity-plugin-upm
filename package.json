@@ -1,0 +1,31 @@
+{
+  "name": "io.bidmachine.ads",
+  "version": "3.6.0",
+  "displayName": "BidMachine",
+  "description": "Built SDK-first, BidMachine helps mobile publishers earn more and advertisers run more efficient campaigns through data-rich, in-app signals.",
+  "unity": "2021.3",
+  "documentationUrl": "https://developers.bidmachine.io/sdk/general/unity/overview",
+  "changelogUrl": "https://developers.bidmachine.io/sdk/general/unity/unity-changelog",
+  "dependencies": {
+    "com.google.external-dependency-manager": "1.2.175"
+  },
+  "keywords": [
+    "BidMachine",
+    "Ads",
+    "Exchange",
+    "Monetization"
+  ],
+  "samples": [
+    {
+      "displayName": "Usage Sample",
+      "description": "BidMachine Usage Sample with a Demo Scene and C# Implementation",
+      "path": "Samples~/UsageSample"
+    }
+  ],
+  "author":
+  {
+    "name": "BidMachine Inc.",
+    "email": "hi@bidmachine.io",
+    "url": "https://bidmachine.io/"
+  }
+}
