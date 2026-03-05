@@ -1,53 +1,22 @@
-#if UNITY_EDITOR
-#pragma warning disable 0649
-using System.Collections.Generic;
-using System.IO;
-using System.Text.RegularExpressions;
+// ReSharper disable CheckNamespace
+
 using UnityEditor;
-using UnityEngine;
+using UnityEditor.PackageManager;
 
 namespace BidMachineInc.Ads.Editor
 {
-    [System.Serializable]
-    [InitializeOnLoad]
-    public class RemoveHelper
+    internal static class RemoveHelper
     {
-        public static void RemovePlugin(bool isCleanBeforeUpdate = false)
+        private const string PackageName = "io.bidmachine.ads";
+
+        public static void RemovePlugin()
         {
-            if (
-                EditorUtility.DisplayDialog(
-                    "Remove BidMachine plugin",
+            if (!EditorUtility.DisplayDialog("Remove BidMachine plugin",
                     "Are you sure you want to remove the BidMachine plugin from your project?",
                     "Yes",
-                    "Cancel"
-                )
-            )
-            {
-                FileUtil.DeleteFileOrDirectory(Path.Combine(Application.dataPath, "BidMachine"));
-                FileUtil.DeleteFileOrDirectory(
-                    Path.Combine(Application.dataPath, "BidMachine" + ".meta")
-                );
+                    "Cancel")) return;
 
-                new List<string>(Directory.GetFiles("Assets/Plugins/iOS")).ForEach(file =>
-                {
-                    Regex re = new Regex("bidmachine", RegexOptions.IgnoreCase);
-                    if (re.IsMatch(file))
-                        File.Delete(file);
-                    File.Delete(file + ".meta");
-                });
-                new List<string>(Directory.GetFiles("Assets/Plugins/Android")).ForEach(file =>
-                {
-                    Regex re = new("bidmachine", RegexOptions.IgnoreCase);
-                    if (re.IsMatch(file))
-                        File.Delete(file);
-                    File.Delete(file + ".meta");
-                });
-
-                Directory.Delete("Assets/Plugins/Android/bidmachine.androidlib", true);
-            }
-
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            Client.Remove(PackageName);
         }
     }
 }
-#endif
