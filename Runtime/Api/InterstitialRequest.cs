@@ -4,105 +4,100 @@ namespace BidMachineInc.Ads.Api
 {
     public sealed class InterstitialRequest : IAdRequest
     {
-        private readonly IAdRequest client;
+        private readonly IAdRequest _client;
 
         public InterstitialRequest(IAdRequest client)
         {
-            this.client = client;
+            _client = client;
         }
 
         public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+            return _client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()
         {
-            return client.GetAuctionResultObject();
+            return _client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()
         {
-            return client.IsDestroyed();
+            return _client.IsDestroyed();
         }
 
         public bool IsExpired()
         {
-            return client.IsExpired();
+            return _client.IsExpired();
         }
 
         public class Builder : IAdRequestBuilder
         {
-            private readonly IAdRequestBuilder client;
-
-            public Builder()
-            {
-                client = BidMachineClientFactory.GetInterstitialRequestBuilder();
-            }
+            private readonly IAdRequestBuilder _client = BidMachineClientFactory.GetInterstitialRequestBuilder();
 
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
-                client.SetAdContentType(contentType);
+                _client.SetAdContentType(contentType);
                 return this;
             }
 
             public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
-                client.SetTargetingParams(targetingParams);
+                _client.SetTargetingParams(targetingParams);
                 return this;
             }
 
-            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParameters)
+            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
             {
-                client.SetPriceFloorParams(priceFloorParameters);
+                _client.SetPriceFloorParams(priceFloorParams);
                 return this;
             }
 
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
-                client.SetCustomParams(customParams);
+                _client.SetCustomParams(customParams);
                 return this;
             }
 
             public IAdRequestBuilder SetListener(IAdRequestListener listener)
             {
-                client.SetListener(listener);
+                _client.SetListener(listener);
                 return this;
             }
 
             public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
-                client.SetListener(listener);
+                _client.SetListener(listener);
                 return this;
             }
 
-            public IAdRequestBuilder SetLoadingTimeOut(int value)
+            public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
             {
-                client.SetLoadingTimeOut(value);
+                _client.SetLoadingTimeOut(loadingTimeout);
                 return this;
             }
 
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
-                client.SetPlacementId(placementId);
+                _client.SetPlacementId(placementId);
                 return this;
             }
 
-            public IAdRequestBuilder SetBidPayload(string bidPayLoad)
+            public IAdRequestBuilder SetBidPayload(string bidPayload)
             {
-                client.SetBidPayload(bidPayLoad);
+                _client.SetBidPayload(bidPayload);
                 return this;
             }
 
             public IAdRequestBuilder SetNetworks(string networks)
             {
-                client.SetNetworks(networks);
+                _client.SetNetworks(networks);
                 return this;
             }
 
             public IAdRequest Build()
             {
-                return client.Build();
+                return _client.Build();
             }
         }
     }

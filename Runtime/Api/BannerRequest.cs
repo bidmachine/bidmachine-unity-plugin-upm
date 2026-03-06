@@ -1,54 +1,48 @@
 ﻿using BidMachineInc.Ads.Common;
-using BidMachineInc.Ads.Api;
 
 namespace BidMachineInc.Ads.Api
 {
     public sealed class BannerRequest : IBannerRequest
     {
-        private readonly IBannerRequest client;
+        private readonly IBannerRequest _client;
 
         public BannerRequest(IBannerRequest client)
         {
-            this.client = client;
+            _client = client;
         }
 
         public BannerSize GetSize()
         {
-            return client.GetSize();
+            return _client.GetSize();
         }
 
         public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+            return _client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()
         {
-            return client.GetAuctionResultObject();
+            return _client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()
         {
-            return client.IsDestroyed();
+            return _client.IsDestroyed();
         }
 
         public bool IsExpired()
         {
-            return client.IsExpired();
+            return _client.IsExpired();
         }
 
         public class Builder : IBannerRequestBuilder
         {
-            private readonly IBannerRequestBuilder client;
-
-            public Builder()
-            {
-                client = BidMachineClientFactory.GetBannerRequestBuilder();
-            }
+            private readonly IBannerRequestBuilder _client = BidMachineClientFactory.GetBannerRequestBuilder();
 
             public IAdRequestBuilder SetSize(BannerSize size)
             {
-                client.SetSize(size);
+                _client.SetSize(size);
                 return this;
             }
 
@@ -59,61 +53,61 @@ namespace BidMachineInc.Ads.Api
 
             public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
-                client.SetTargetingParams(targetingParams);
+                _client.SetTargetingParams(targetingParams);
                 return this;
             }
 
-            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParameters)
+            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
             {
-                client.SetPriceFloorParams(priceFloorParameters);
+                _client.SetPriceFloorParams(priceFloorParams);
                 return this;
             }
 
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
-                client.SetCustomParams(customParams);
+                _client.SetCustomParams(customParams);
                 return this;
             }
 
             public IAdRequestBuilder SetListener(IAdRequestListener listener)
             {
-                client.SetListener(listener);
+                _client.SetListener(listener);
                 return this;
             }
 
             public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
-                client.SetListener(listener);
+                _client.SetListener(listener);
                 return this;
             }
 
-            public IAdRequestBuilder SetLoadingTimeOut(int value)
+            public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
             {
-                client.SetLoadingTimeOut(value);
+                _client.SetLoadingTimeOut(loadingTimeout);
                 return this;
             }
 
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
-                client.SetPlacementId(placementId);
+                _client.SetPlacementId(placementId);
                 return this;
             }
 
-            public IAdRequestBuilder SetBidPayload(string bidPayLoad)
+            public IAdRequestBuilder SetBidPayload(string bidPayload)
             {
-                client.SetBidPayload(bidPayLoad);
+                _client.SetBidPayload(bidPayload);
                 return this;
             }
 
             public IAdRequestBuilder SetNetworks(string networks)
             {
-                client.SetNetworks(networks);
+                _client.SetNetworks(networks);
                 return this;
             }
 
             public IAdRequest Build()
             {
-                return client.Build();
+                return _client.Build();
             }
         }
     }

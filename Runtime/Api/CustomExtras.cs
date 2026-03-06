@@ -6,7 +6,7 @@ namespace BidMachineInc.Ads.Api
     [Serializable]
     public sealed class CustomExtras
     {
-        public Dictionary<string, string> Extras { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Extras { get; } = new();
 
         public CustomExtras() { }
 

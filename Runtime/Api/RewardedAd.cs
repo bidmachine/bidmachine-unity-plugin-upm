@@ -4,41 +4,41 @@ namespace BidMachineInc.Ads.Api
 {
     public sealed class RewardedAd : IRewardedAd
     {
-        private readonly IRewardedAd client;
+        private readonly IRewardedAd _client;
 
         public RewardedAd()
         {
-            this.client = BidMachineClientFactory.GetRewardedAd();
+            _client = BidMachineClientFactory.GetRewardedAd();
         }
 
         public RewardedAd(IRewardedAd client)
         {
-            this.client = client;
+            _client = client;
         }
 
         public void Show()
         {
-            client.Show();
+            _client.Show();
         }
 
         public bool CanShow()
         {
-            return client.CanShow();
+            return _client.CanShow();
         }
 
         public void Destroy()
         {
-            client.Destroy();
+            _client.Destroy();
         }
 
         public void SetListener(IRewardedAdListener listener)
         {
-            client.SetListener(listener);
+            _client.SetListener(listener);
         }
 
         public void Load(IAdRequest request)
         {
-            client.Load(request);
+            _client.Load(request);
         }
     }
 }
