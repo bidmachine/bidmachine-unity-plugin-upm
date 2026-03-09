@@ -1,29 +1,22 @@
-﻿#if PLATFORM_ANDROID
+﻿using System;
 using UnityEngine;
-using BidMachineInc.Ads.Common;
 using BidMachineInc.Ads.Api;
-using System;
+using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads.Android
 {
     internal class AndroidRewardedAd : IRewardedAd
     {
-        private readonly AndroidJavaObject jObject;
+        private readonly AndroidJavaObject _jObject;
 
-        private readonly Func<AndroidJavaObject, IRewardedAd> adFactory;
+        private readonly Func<AndroidJavaObject, IRewardedAd> _adFactory;
 
-        public AndroidRewardedAd()
-            : this(
-                new AndroidJavaObject(
-                    AndroidConsts.RewardedAdClassName,
-                    AndroidNativeConverter.GetActivity()
-                )
-            ) { }
+        public AndroidRewardedAd() : this(new AndroidJavaObject(AndroidConsts.RewardedAdClassName, AndroidNativeConverter.GetActivity())) { }
 
         public AndroidRewardedAd(AndroidJavaObject javaObject)
         {
-            jObject = javaObject;
-            adFactory = delegate(AndroidJavaObject ad)
+            _jObject = javaObject;
+            _adFactory = delegate(AndroidJavaObject ad)
             {
                 return new RewardedAd(new AndroidRewardedAd(ad));
             };
@@ -31,45 +24,31 @@ namespace BidMachineInc.Ads.Android
 
         public void Show()
         {
-            jObject.Call("show");
+            _jObject.Call("show");
         }
 
         public bool CanShow()
         {
-            return jObject.Call<bool>("canShow");
+            return _jObject.Call<bool>("canShow");
         }
 
         public void Destroy()
         {
-            jObject.Call("destroy");
+            _jObject.Call("destroy");
         }
 
         public void Load(IAdRequest request)
         {
-            if (request == null)
-            {
-                return;
-            }
+            if (request == null) return;
 
-            jObject.Call<AndroidJavaObject>("load", ((AndroidRewardedRequest)request).JavaObject);
+            _jObject.Call<AndroidJavaObject>("load", ((AndroidRewardedRequest)request).JavaObject);
         }
 
         public void SetListener(IRewardedAdListener listener)
         {
-            if (listener == null)
-            {
-                return;
-            }
+            if (listener == null) return;
 
-            jObject.Call<AndroidJavaObject>(
-                "setListener",
-                new AndroidRewardedAdListener(
-                    AndroidConsts.RewardedListenerClassName,
-                    listener,
-                    adFactory
-                )
-            );
+            _jObject.Call<AndroidJavaObject>("setListener", new AndroidRewardedAdListener(AndroidConsts.RewardedListenerClassName, listener, _adFactory));
         }
     }
 }
-#endif

@@ -1,16 +1,21 @@
-#if PLATFORM_ANDROID
-using System.Collections.Generic;
-using BidMachineInc.Ads.Api;
 using UnityEngine;
+using BidMachineInc.Ads.Api;
 
 namespace BidMachineInc.Ads.Android
 {
-    internal class AndroidNativeConverter
+    internal static class AndroidNativeConverter
     {
+        private static AndroidJavaObject _activity;
+
+        private static AndroidJavaObject GetActivityInternal()
+        {
+            using var jcUnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            return jcUnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        }
+
         public static AndroidJavaObject GetActivity()
         {
-            var jcUnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            return jcUnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            return _activity ??= GetActivityInternal();
         }
 
         public static object GetObject(object obj)
@@ -41,8 +46,8 @@ namespace BidMachineInc.Ads.Android
         {
             return bannerSize switch
             {
-                BannerSize.Size_300x250 => GetBannerSize("Size_300x250"),
-                BannerSize.Size_728x90 => GetBannerSize("Size_728x90"),
+                BannerSize.MediumRectangle => GetBannerSize("Size_300x250"),
+                BannerSize.Leaderboard => GetBannerSize("Size_728x90"),
                 _ => GetBannerSize("Size_320x50"),
             };
         }
@@ -57,16 +62,11 @@ namespace BidMachineInc.Ads.Android
         {
             var jObject = new AndroidJavaObject("io.bidmachine.PriceFloorParams");
 
-            if (priceFloorParams != null && priceFloorParams.PriceFloors != null)
+            if (priceFloorParams == null || priceFloorParams.PriceFloors == null) return jObject;
+
+            foreach (var priceFloor in priceFloorParams.PriceFloors)
             {
-                foreach (KeyValuePair<string, double> priceFloor in priceFloorParams.PriceFloors)
-                {
-                    jObject.Call<AndroidJavaObject>(
-                        "addPriceFloor",
-                        GetObject(priceFloor.Key),
-                        priceFloor.Value
-                    );
-                }
+                jObject.Call<AndroidJavaObject>("addPriceFloor", GetObject(priceFloor.Key), priceFloor.Value);
             }
 
             return jObject;
@@ -76,16 +76,11 @@ namespace BidMachineInc.Ads.Android
         {
             var jObject = new AndroidJavaObject("io.bidmachine.CustomParams");
 
-            if (customParams != null && customParams.Params != null)
+            if (customParams == null || customParams.Params == null) return jObject;
+
+            foreach (var customParam in customParams.Params)
             {
-                foreach (KeyValuePair<string, string> customParam in customParams.Params)
-                {
-                    jObject.Call<AndroidJavaObject>(
-                        "addParam",
-                        GetObject(customParam.Key),
-                        customParam.Value
-                    );
-                }
+                jObject.Call<AndroidJavaObject>("addParam", GetObject(customParam.Key), customParam.Value);
             }
 
             return jObject;
@@ -106,88 +101,78 @@ namespace BidMachineInc.Ads.Android
         {
             var jObject = new AndroidJavaObject("io.bidmachine.TargetingParams");
 
-            if (targetingParams != null)
+            if (targetingParams == null) return jObject;
+
+            jObject.Call("setUserId", targetingParams.UserId);
+
+            var jcGender = new AndroidJavaClass("io.bidmachine.utils.Gender");
+            var jGender = jcGender.GetStatic<AndroidJavaObject>(targetingParams.UserGender.ToString());
+            jObject.Call("setGender", jGender);
+
+            jObject.Call("setBirthdayYear", GetObject(targetingParams.BirthdayYear));
+            jObject.Call("setKeywords", (object)targetingParams.Keywords);
+
+            var location = targetingParams.DeviceLocation;
+            if (location != null)
             {
-                jObject.Call("setUserId", targetingParams.UserId);
+                var jLocation = new AndroidJavaObject("android.location.Location", location.Provider);
+                jLocation.Call("setLatitude", location.Latitude);
+                jLocation.Call("setLongitude", location.Longitude);
+                jObject.Call("setDeviceLocation", jLocation);
+            }
 
-                var jcGender = new AndroidJavaClass("io.bidmachine.utils.Gender");
-                var jGender = jcGender.GetStatic<AndroidJavaObject>(
-                    targetingParams.UserId.ToString()
-                );
-                jObject.Call("setGender", jGender);
+            jObject.Call("setCountry", targetingParams.Country);
 
-                jObject.Call("setBirthdayYear", GetObject(targetingParams.BirthdayYear));
-                jObject.Call("setKeywords", (object)targetingParams.Keywords);
+            jObject.Call("setCity", targetingParams.City);
 
-                var location = targetingParams.DeviceLocation;
-                if (location != null)
+            jObject.Call("setZip", targetingParams.Zip);
+
+            jObject.Call("setStoreUrl", targetingParams.StoreUrl);
+
+            jObject.Call("setStoreCategory", targetingParams.StoreCategory);
+
+            jObject.Call("setStoreSubCategories", (object)targetingParams.StoreSubCategories);
+
+            jObject.Call("setFramework", targetingParams.Framework);
+
+            jObject.Call("setPaid", GetObject(targetingParams.IsPaid));
+
+            var externalUserIds = targetingParams.ExternalUserIds;
+            if (externalUserIds != null)
+            {
+                var jArrayList = new AndroidJavaObject("java.util.ArrayList");
+                foreach (var externalUserId in externalUserIds)
                 {
-                    var jLocation = new AndroidJavaObject(
-                        "android.location.Location",
-                        location.Provider
-                    );
-                    jLocation.Call("setLatitude", location.Latitude);
-                    jLocation.Call("setLongitude", location.Longitude);
-                    jObject.Call("setDeviceLocation", jLocation);
+                    var jExternalUserId = new AndroidJavaObject("io.bidmachine.ExternalUserId", externalUserId.SourceId, externalUserId.Value);
+                    jArrayList.Call<bool>("add", jExternalUserId);
                 }
+                jObject.Call("setExternalUserIds", jArrayList);
+            }
 
-                jObject.Call("setCountry", targetingParams.Country);
-
-                jObject.Call("setCity", targetingParams.City);
-
-                jObject.Call("setZip", targetingParams.Zip);
-
-                jObject.Call("setStoreUrl", targetingParams.StoreUrl);
-
-                jObject.Call("setStoreCategory", targetingParams.StoreCategory);
-
-                jObject.Call("setStoreSubCategories", (object)targetingParams.StoreSubCategories);
-
-                jObject.Call("setFramework", targetingParams.Framework);
-
-                jObject.Call("setPaid", GetObject(targetingParams.IsPaid));
-
-                var externalUserIds = targetingParams.externalUserIds;
-                if (externalUserIds != null)
+            var blockedApplications = targetingParams.BlockedApplications;
+            if (blockedApplications != null)
+            {
+                foreach (string app in blockedApplications)
                 {
-                    var jArrayList = new AndroidJavaObject("java.util.ArrayList");
-                    foreach (var externalUserId in externalUserIds)
-                    {
-                        var jExternalUserId = new AndroidJavaObject(
-                            "io.bidmachine.ExternalUserId",
-                            externalUserId.SourceId,
-                            externalUserId.Value
-                        );
-                        jArrayList.Call<bool>("add", jExternalUserId);
-                    }
-                    jObject.Call("setExternalUserIds", jArrayList);
+                    jObject.Call("addBlockedApplication", app);
                 }
+            }
 
-                var blockedApplications = targetingParams.BlockedApplications;
-                if (blockedApplications != null)
+            var blockedCategories = targetingParams.BlockedCategories;
+            if (blockedCategories != null)
+            {
+                foreach (string category in blockedCategories)
                 {
-                    foreach (var app in blockedApplications)
-                    {
-                        jObject.Call("addBlockedApplication", app);
-                    }
+                    jObject.Call("addBlockedAdvertiserIABCategory", category);
                 }
+            }
 
-                var blockedCategories = targetingParams.BlockedCategories;
-                if (blockedCategories != null)
+            var blockedDomains = targetingParams.BlockedDomains;
+            if (blockedDomains != null)
+            {
+                foreach (string domain in blockedDomains)
                 {
-                    foreach (var category in blockedCategories)
-                    {
-                        jObject.Call("addBlockedAdvertiserIABCategory", category);
-                    }
-                }
-
-                var blockedDomains = targetingParams.BlockedDomains;
-                if (blockedDomains != null)
-                {
-                    foreach (var domain in blockedDomains)
-                    {
-                        jObject.Call("addBlockedAdvertiserDomain", domain);
-                    }
+                    jObject.Call("addBlockedAdvertiserDomain", domain);
                 }
             }
 
@@ -195,4 +180,3 @@ namespace BidMachineInc.Ads.Android
         }
     }
 }
-#endif

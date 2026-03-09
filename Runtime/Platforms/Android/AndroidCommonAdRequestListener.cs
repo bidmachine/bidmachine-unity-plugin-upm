@@ -1,25 +1,20 @@
-#if PLATFORM_ANDROID
 using System;
+using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
-using UnityEngine;
 
 namespace BidMachineInc.Ads.Android
 {
-    internal abstract class AndroidCommonAdRequestListener<TAuctionResult>
-        : AndroidJavaProxy,
-            ICommonAdRequestListener<AndroidJavaObject, AndroidJavaObject, AndroidJavaObject>
+    internal abstract class AndroidCommonAdRequestListener<TAuctionResult> : AndroidJavaProxy, ICommonAdRequestListener<AndroidJavaObject, AndroidJavaObject, AndroidJavaObject>
     {
         protected readonly ICommonAdRequestListener<IAdRequest, TAuctionResult, BMError> listener;
 
         protected readonly Func<AndroidJavaObject, IAdRequest> factory;
 
-        internal AndroidCommonAdRequestListener(
-            string className,
-            ICommonAdRequestListener<IAdRequest, TAuctionResult, BMError> listener,
-            Func<AndroidJavaObject, IAdRequest> factory
-        )
-            : base(className)
+        internal AndroidCommonAdRequestListener(string className,
+                                                ICommonAdRequestListener<IAdRequest, TAuctionResult, BMError> listener,
+                                                Func<AndroidJavaObject, IAdRequest> factory
+        ) : base(className)
         {
             this.listener = listener;
             this.factory = factory;
@@ -36,4 +31,3 @@ namespace BidMachineInc.Ads.Android
         }
     }
 }
-#endif

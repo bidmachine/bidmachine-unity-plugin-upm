@@ -1,29 +1,22 @@
-﻿#if PLATFORM_ANDROID
+﻿using System;
 using UnityEngine;
-using BidMachineInc.Ads.Common;
 using BidMachineInc.Ads.Api;
-using System;
+using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads.Android
 {
     internal class AndroidInterstitialAd : IInterstitialAd
     {
-        private readonly AndroidJavaObject jObject;
+        private readonly AndroidJavaObject _jObject;
 
-        private readonly Func<AndroidJavaObject, IInterstitialAd> adFactory;
+        private readonly Func<AndroidJavaObject, IInterstitialAd> _adFactory;
 
-        public AndroidInterstitialAd()
-            : this(
-                new AndroidJavaObject(
-                    AndroidConsts.InterstitialAdClassName,
-                    AndroidNativeConverter.GetActivity()
-                )
-            ) { }
+        public AndroidInterstitialAd() : this(new AndroidJavaObject(AndroidConsts.InterstitialAdClassName, AndroidNativeConverter.GetActivity())) { }
 
         public AndroidInterstitialAd(AndroidJavaObject javaObject)
         {
-            jObject = javaObject;
-            adFactory = delegate(AndroidJavaObject ad)
+            _jObject = javaObject;
+            _adFactory = delegate(AndroidJavaObject ad)
             {
                 return new InterstitialAd(new AndroidInterstitialAd(ad));
             };
@@ -31,48 +24,31 @@ namespace BidMachineInc.Ads.Android
 
         public void Show()
         {
-            jObject.Call("show");
+            _jObject.Call("show");
         }
 
         public bool CanShow()
         {
-            return jObject.Call<bool>("canShow");
+            return _jObject.Call<bool>("canShow");
         }
 
         public void Destroy()
         {
-            jObject.Call("destroy");
+            _jObject.Call("destroy");
         }
 
         public void Load(IAdRequest request)
         {
-            if (request == null)
-            {
-                return;
-            }
+            if (request == null) return;
 
-            jObject.Call<AndroidJavaObject>(
-                "load",
-                ((AndroidInterstitialRequest)request).JavaObject
-            );
+            _jObject.Call<AndroidJavaObject>("load", ((AndroidInterstitialRequest)request).JavaObject);
         }
 
         public void SetListener(IInterstitialAdListener listener)
         {
-            if (listener == null)
-            {
-                return;
-            }
+            if (listener == null) return;
 
-            jObject.Call<AndroidJavaObject>(
-                "setListener",
-                new AndroidInterstitialAdListener(
-                    AndroidConsts.InterstitialListenerClassName,
-                    listener,
-                    adFactory
-                )
-            );
+            _jObject.Call<AndroidJavaObject>("setListener", new AndroidInterstitialAdListener(AndroidConsts.InterstitialListenerClassName, listener, _adFactory));
         }
     }
 }
-#endif

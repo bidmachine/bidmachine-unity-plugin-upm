@@ -1,29 +1,24 @@
-﻿#if PLATFORM_ANDROID
+﻿using System;
 using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
-using UnityEngine.Android;
 
 namespace BidMachineInc.Ads.Android
 {
     internal class AndroidBidMachine : IBidMachine
     {
-        private AndroidJavaClass jClass;
+        private AndroidJavaClass _jClass;
 
         private AndroidJavaClass GetBidMachineClass()
         {
-            return jClass ??= new AndroidJavaClass("io.bidmachine.BidMachine");
+            return _jClass ??= new AndroidJavaClass("io.bidmachine.BidMachine");
         }
 
         public void Initialize(string sellerId)
         {
-            if (string.IsNullOrEmpty(sellerId))
-            {
-                return;
-            }
+            if (String.IsNullOrEmpty(sellerId)) return;
 
-            GetBidMachineClass()
-                .CallStatic("initialize", AndroidNativeConverter.GetActivity(), sellerId);
+            GetBidMachineClass().CallStatic("initialize", AndroidNativeConverter.GetActivity(), sellerId);
         }
 
         public bool IsInitialized()
@@ -33,10 +28,7 @@ namespace BidMachineInc.Ads.Android
 
         public void SetEndpoint(string url)
         {
-            if (string.IsNullOrEmpty(url))
-            {
-                return;
-            }
+            if (String.IsNullOrEmpty(url)) return;
 
             GetBidMachineClass().CallStatic("setEndpoint", url);
         }
@@ -53,32 +45,21 @@ namespace BidMachineInc.Ads.Android
 
         public void SetTargetingParams(TargetingParams targetingParams)
         {
-            if (targetingParams == null)
-            {
-                return;
-            }
+            if (targetingParams == null) return;
 
-            GetBidMachineClass()
-                .CallStatic(
-                    "setTargetingParams",
-                    AndroidNativeConverter.GetTargetingParams(targetingParams)
-                );
+            GetBidMachineClass().CallStatic("setTargetingParams", AndroidNativeConverter.GetTargetingParams(targetingParams));
         }
 
         public void SetConsentConfig(bool consent, string consentConfig)
         {
-            if (string.IsNullOrEmpty(consentConfig))
-            {
-                return;
-            }
+            if (String.IsNullOrEmpty(consentConfig)) return;
 
             GetBidMachineClass().CallStatic("setConsentConfig", consent, consentConfig);
         }
 
-        public void SetSubjectToGDPR(bool subjectToGDPR)
+        public void SetSubjectToGDPR(bool subjectToGdpr)
         {
-            GetBidMachineClass()
-                .CallStatic("setSubjectToGDPR", AndroidNativeConverter.GetObject(subjectToGDPR));
+            GetBidMachineClass().CallStatic("setSubjectToGDPR", AndroidNativeConverter.GetObject(subjectToGdpr));
         }
 
         public void SetCoppa(bool coppa)
@@ -88,20 +69,14 @@ namespace BidMachineInc.Ads.Android
 
         public void SetUSPrivacyString(string usPrivacyString)
         {
-            if (string.IsNullOrEmpty(usPrivacyString))
-            {
-                return;
-            }
+            if (String.IsNullOrEmpty(usPrivacyString)) return;
 
             GetBidMachineClass().CallStatic("setUSPrivacyString", usPrivacyString);
         }
 
         public void SetGPP(string gppString, int[] gppIds)
         {
-            if (string.IsNullOrEmpty(gppString))
-            {
-                return;
-            }
+            if (String.IsNullOrEmpty(gppString)) return;
 
             var clientGppIds = AndroidNativeConverter.GetArrayList(gppIds);
 
@@ -110,14 +85,9 @@ namespace BidMachineInc.Ads.Android
 
         public void SetPublisher(Publisher publisher)
         {
-            if (publisher == null)
-            {
-                return;
-            }
+            if (publisher == null) return;
 
-            GetBidMachineClass()
-                .CallStatic("setPublisher", AndroidNativeConverter.GetPublisher(publisher));
+            GetBidMachineClass().CallStatic("setPublisher", AndroidNativeConverter.GetPublisher(publisher));
         }
     }
 }
-#endif

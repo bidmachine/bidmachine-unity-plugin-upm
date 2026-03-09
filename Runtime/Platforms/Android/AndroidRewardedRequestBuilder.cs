@@ -1,5 +1,4 @@
-﻿#if PLATFORM_ANDROID
-using UnityEngine;
+﻿using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
 
@@ -11,9 +10,7 @@ namespace BidMachineInc.Ads.Android
 
         public AndroidRewardedRequestBuilder()
         {
-            requestBuilder = new AndroidAdRequestBuilder(
-                AndroidConsts.RewardedRequestBuilderClassName,
-                AndroidConsts.RewardedRequestListenerClassName,
+            requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.RewardedRequestBuilderClassName, AndroidConsts.RewardedRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidRewardedRequest(request);
@@ -77,4 +74,3 @@ namespace BidMachineInc.Ads.Android
         }
     }
 }
-#endif

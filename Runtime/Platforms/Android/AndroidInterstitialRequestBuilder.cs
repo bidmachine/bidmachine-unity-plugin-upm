@@ -1,5 +1,4 @@
-﻿#if PLATFORM_ANDROID
-using UnityEngine;
+﻿using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
 
@@ -11,9 +10,7 @@ namespace BidMachineInc.Ads.Android
 
         public AndroidInterstitialRequestBuilder()
         {
-            requestBuilder = new AndroidAdRequestBuilder(
-                AndroidConsts.InterstitialRequestBuilderClassName,
-                AndroidConsts.InterstitialRequestListenerClassName,
+            requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.InterstitialRequestBuilderClassName, AndroidConsts.InterstitialRequestListenerClassName,
                 delegate (AndroidJavaObject request)
                 {
                     return new AndroidInterstitialRequest(request);
@@ -77,4 +74,3 @@ namespace BidMachineInc.Ads.Android
         }
     }
 }
-#endif
