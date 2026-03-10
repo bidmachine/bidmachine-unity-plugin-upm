@@ -1,70 +1,75 @@
-﻿using BidMachineInc.Ads.Api;
+﻿using UnityEngine;
+using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
-using UnityEngine;
 
 namespace BidMachineInc.Ads.Dummy
 {
+    internal static class Consts
+    {
+        internal const string DummyMessage = "on not supported platform. To test advertising, install your application on the Android/iOS device.";
+    }
+
     public class DummyBidMachine : IBidMachine
     {
         public void Initialize(string sellerId)
         {
-            Debug.LogWarning($"Call to Initialize(string) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Initialize(string) {Consts.DummyMessage}");
         }
 
         public bool IsInitialized()
         {
-            Debug.LogWarning($"Call to IsInitialized() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to IsInitialized() {Consts.DummyMessage}");
             return false;
         }
 
         public void SetConsentConfig(bool consent, string consentConfig)
         {
-            Debug.LogWarning($"Call to SetConsentConfig(bool, string) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetConsentConfig(bool, string) {Consts.DummyMessage}");
         }
 
         public void SetCoppa(bool coppa)
         {
-            Debug.LogWarning($"Call to SetCoppa(bool) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetCoppa(bool) {Consts.DummyMessage}");
         }
 
         public void SetEndpoint(string url)
         {
-            Debug.LogWarning($"Call to SetEndpoint(string) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetEndpoint(string) {Consts.DummyMessage}");
         }
 
         public void SetGPP(string gppString, int[] gppIds)
         {
-            Debug.LogWarning($"Call to SetGPP(string, int[]) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetGPP(string, int[]) {Consts.DummyMessage}");
         }
 
         public void SetLoggingEnabled(bool logging)
         {
-            Debug.LogWarning($"Call to SetLoggingEnabled(bool) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetLoggingEnabled(bool) {Consts.DummyMessage}");
         }
 
         public void SetPublisher(Publisher publisher)
         {
-            Debug.LogWarning($"Call to SetPublisher(Publisher) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetPublisher(Publisher) {Consts.DummyMessage}");
         }
 
-        public void SetSubjectToGDPR(bool subjectToGDPR)
+        public void SetSubjectToGDPR(bool subjectToGdpr)
         {
-            Debug.LogWarning($"Call to SetSubjectToGDPR(bool) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetSubjectToGDPR(bool) {Consts.DummyMessage}");
         }
 
         public void SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Consts.DummyMessage}");
         }
 
         public void SetTestMode(bool test)
         {
-            Debug.LogWarning($"Call to SetTestMode(bool) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetTestMode(bool) {Consts.DummyMessage}");
         }
 
         public void SetUSPrivacyString(string usPrivacyString)
         {
-            Debug.LogWarning($"Call to SetUSPrivacyString(string) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetUSPrivacyString(string) {Consts.DummyMessage}");
         }
     }
 
@@ -72,35 +77,33 @@ namespace BidMachineInc.Ads.Dummy
     {
         public bool CanShow()
         {
-            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to CanShow() {Consts.DummyMessage}");
             return false;
         }
 
         public void Destroy()
         {
-            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Destroy() {Consts.DummyMessage}");
         }
 
         public void Hide()
         {
-            Debug.LogWarning($"Call to Hide() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Hide() {Consts.DummyMessage}");
         }
 
         public void Load(IAdRequest request)
         {
-            Debug.LogWarning($"Call to load(IBannerRequest) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Load(IBannerRequest) {Consts.DummyMessage}");
         }
 
         public void SetListener(IAdListener<IBannerView> listener)
         {
-            Debug.LogWarning($"Call to setListener(IBannerListener) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetListener(IBannerListener) {Consts.DummyMessage}");
         }
 
-        public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size)
+        public bool Show(int yAxis, int xAxis, IBannerView ad, BannerSize size)
         {
-            Debug.LogWarning(
-                $"Call to Show(int, int, IBannerAd, BannerSize) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to Show(int, int, IBannerAd, BannerSize) {Consts.DummyMessage}");
             return false;
         }
     }
@@ -109,86 +112,74 @@ namespace BidMachineInc.Ads.Dummy
     {
         public IAdRequest Build()
         {
-            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Build() {Consts.DummyMessage}");
             return null;
         }
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetAdContentType(AdContentType) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetBidPayload(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IBannerRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IBannerRequest, string, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetLoadingTimeOut(int) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetNetworks(string networks)
         {
-            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetNetworks(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPlacementId(string placementId)
         {
-            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetPlacementId(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            Debug.LogWarning(
-                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetPriceFloorParams(PriceFloorParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
-            return null;
-        }
-
-        public IBannerRequestBuilder setSize(BannerSize size)
-        {
-            Debug.LogWarning($"Call to SetSize(BannerSize) {Const.DUMMY_MESSAGE}");
-            return null;
-        }
-
-        public IAdRequestBuilder SetSize(BannerSize size)
-        {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetCustomParams(CustomParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetTargetingParams(TargetingParams) {Consts.DummyMessage}");
+            return this;
+        }
+
+        public IAdRequestBuilder SetSize(BannerSize size)
+        {
+            Debug.LogWarning($"Call to SetSize(BannerSize) {Consts.DummyMessage}");
+            return this;
         }
     }
 
@@ -196,28 +187,28 @@ namespace BidMachineInc.Ads.Dummy
     {
         public bool CanShow()
         {
-            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to CanShow() {Consts.DummyMessage}");
             return false;
         }
 
         public void Destroy()
         {
-            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Destroy() {Consts.DummyMessage}");
         }
 
         public void Load(IAdRequest request)
         {
-            Debug.LogWarning($"Call to load(IInterstitialRequest) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Load(IInterstitialRequest) {Consts.DummyMessage}");
         }
 
         public void SetListener(IInterstitialAdListener listener)
         {
-            Debug.LogWarning($"Call to setListener(IInterstitialAdListener) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetListener(IInterstitialAdListener) {Consts.DummyMessage}");
         }
 
         public void Show()
         {
-            Debug.LogWarning($"Call to show() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Show() {Consts.DummyMessage}");
         }
     }
 
@@ -225,74 +216,68 @@ namespace BidMachineInc.Ads.Dummy
     {
         public IAdRequest Build()
         {
-            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Build() {Consts.DummyMessage}");
             return null;
         }
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetAdContentType(AdContentType) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetBidPayload(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IInterstitialRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IInterstitialRequest, string, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetLoadingTimeOut(int) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetNetworks(string networks)
         {
-            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetNetworks(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPlacementId(string placementId)
         {
-            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetPlacementId(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            Debug.LogWarning(
-                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetPriceFloorParams(PriceFloorParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetCustomParams(CustomParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetTargetingParams(TargetingParams) {Consts.DummyMessage}");
+            return this;
         }
     }
 
@@ -300,28 +285,28 @@ namespace BidMachineInc.Ads.Dummy
     {
         public bool CanShow()
         {
-            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to CanShow() {Consts.DummyMessage}");
             return false;
         }
 
         public void Destroy()
         {
-            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Destroy() {Consts.DummyMessage}");
         }
 
         public void Load(IAdRequest request)
         {
-            Debug.LogWarning($"Call to load(IRewardedRequest) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Load(IRewardedRequest) {Consts.DummyMessage}");
         }
 
         public void SetListener(IRewardedAdListener listener)
         {
-            Debug.LogWarning($"Call to setListener(IRewardedlListener) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetListener(IRewardedListener) {Consts.DummyMessage}");
         }
 
         public void Show()
         {
-            Debug.LogWarning($"Call to show() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Show() {Consts.DummyMessage}");
         }
     }
 
@@ -329,80 +314,68 @@ namespace BidMachineInc.Ads.Dummy
     {
         public IAdRequest Build()
         {
-            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to Build() {Consts.DummyMessage}");
             return null;
         }
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetAdContentType(AdContentType) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetBidPayload(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IRewardedRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IRewardedRequest, string, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetLoadingTimeOut(int) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetNetworks(string networks)
         {
-            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetNetworks(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPlacementId(string placementId)
         {
-            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetPlacementId(string) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            Debug.LogWarning(
-                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
+            Debug.LogWarning($"Call to SetPriceFloorParams(PriceFloorParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetCustomParams(CustomParams) {Consts.DummyMessage}");
+            return this;
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
-            return null;
+            Debug.LogWarning($"Call to SetTargetingParams(TargetingParams) {Consts.DummyMessage}");
+            return this;
         }
-    }
-
-    class Const
-    {
-        internal const string DUMMY_MESSAGE =
-            "on not supported platform. To test advertising, install your application on the Android/iOS device.";
     }
 }

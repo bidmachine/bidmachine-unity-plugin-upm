@@ -1,0 +1,19 @@
+{
+    "name": "BidMachineInc.Ads.Dummy",
+    "rootNamespace": "BidMachineInc.Ads.Dummy",
+    "references": [
+        "GUID:f7d7d8af8920d487bb278cf13cd89378"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "iOS"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
