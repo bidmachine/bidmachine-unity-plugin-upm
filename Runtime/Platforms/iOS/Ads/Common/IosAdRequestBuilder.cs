@@ -100,7 +100,6 @@ namespace BidMachineInc.Ads.Ios
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            // TODO: Delete from interface?
             return this;
         }
 

@@ -60,7 +60,7 @@ namespace BidMachineInc.Ads.Dummy
 
         public void SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Consts.DummyMessage}");
+            Debug.LogWarning($"Call to SetTargetingParams(TargetingParams) {Consts.DummyMessage}");
         }
 
         public void SetTestMode(bool test)
@@ -241,7 +241,7 @@ namespace BidMachineInc.Ads.Dummy
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning($"Call to SetListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            Debug.LogWarning($"Call to SetListener(IAdAuctionRequestListener<IInterstitialRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
             return this;
         }
 

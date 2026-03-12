@@ -7,7 +7,6 @@ using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads.Android
 {
-    [Obsolete("Use AndroidAuctionRequestListener instead")]
     internal class AndroidAdRequestListener : AndroidCommonAdRequestListener<string>
     {
         internal AndroidAdRequestListener(string className,

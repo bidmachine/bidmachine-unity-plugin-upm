@@ -16,9 +16,9 @@ struct Publisher {
 
 extension Publisher: Decodable {
     enum CodingKeys: String, CodingKey {
-        case id = "Id"
-        case name = "Name"
-        case domain = "Domain"
-        case categories = "Categories"
+        case id = "id"
+        case name = "name"
+        case domain = "domain"
+        case categories = "categories"
     }
 }

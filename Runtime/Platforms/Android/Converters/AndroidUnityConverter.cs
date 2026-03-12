@@ -54,7 +54,6 @@ namespace BidMachineInc.Ads.Android
             };
         }
 
-        [Obsolete("Use GetAuctionResultObject(AndroidJavaObject) instead")]
         public static string GetAuctionResult(AndroidJavaObject jObject)
         {
             var jCustomParams = jObject.Call<AndroidJavaObject>("getCustomParams");

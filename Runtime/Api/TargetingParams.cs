@@ -28,7 +28,7 @@ namespace BidMachineInc.Ads.Api
 
         public string[] StoreSubCategories { get; set; }
 
-        public string Framework { get; set; }
+        public string Framework => "unity";
 
         public bool IsPaid { get; set; }
 
@@ -60,8 +60,8 @@ namespace BidMachineInc.Ads.Api
 
         // Deprecated aliases
         [Obsolete("Use TargetingParams.UserGender instead.")]
-        public Gender gender { get; set; }
+        public Gender gender { get => UserGender; set => UserGender = value; }
         [Obsolete("Use TargetingParams.ExternalUserIds instead.")]
-        public ExternalUserId[] externalUserIds { get; set; }
+        public ExternalUserId[] externalUserIds { get => ExternalUserIds; set => ExternalUserIds = value; }
     }
 }

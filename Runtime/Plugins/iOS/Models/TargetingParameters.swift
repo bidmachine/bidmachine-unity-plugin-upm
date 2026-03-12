@@ -9,7 +9,7 @@ import Foundation
 
 struct TargetingParameters {
     struct Location {
-        let povider: String
+        let provider: String
         let latitude: Double
         let longitude: Double
     }
@@ -50,37 +50,37 @@ struct TargetingParameters {
 
 extension TargetingParameters: Decodable {
     enum CodingKeys: String, CodingKey {
-        case userId = "UserId"
-        case gender = "Gender"
-        case birthdayYear = "BirthdayYear"
-        case keywords = "Keywords"
-        case location = "DeviceLocation"
-        case country = "Country"
-        case city = "City"
-        case zipCode = "Zip"
-        case storeURL = "StoreUrl"
-        case storeCategory = "StoreCategory"
-        case storeSubCategories = "StoreSubCategories"
-        case framework = "Framework"
-        case isPaid = "IsPaid"
+        case userId = "userId"
+        case gender = "gender"
+        case birthdayYear = "birthdayYear"
+        case keywords = "keywords"
+        case location = "deviceLocation"
+        case country = "country"
+        case city = "city"
+        case zipCode = "zip"
+        case storeURL = "storeUrl"
+        case storeCategory = "storeCategory"
+        case storeSubCategories = "storeSubCategories"
+        case framework = "framework"
+        case isPaid = "isPaid"
         case externalUserIDs = "externalUserIds"
-        case blockedDomains = "BlockedDomains"
-        case blockedCategories = "BlockedCategories"
-        case blockedApplications = "BlockedApplications"
+        case blockedDomains = "blockedDomains"
+        case blockedCategories = "blockedCategories"
+        case blockedApplications = "blockedApplications"
     }
 }
 
 extension TargetingParameters.Location: Decodable {
     enum CodingKeys: String, CodingKey {
-        case povider = "Provider"
-        case latitude = "Latitude"
-        case longitude = "Longitude"
+        case provider = "provider"
+        case latitude = "latitude"
+        case longitude = "longitude"
     }
 }
 
 extension TargetingParameters.ExternalUser: Decodable {
     enum CodingKeys: String, CodingKey {
-        case sourceId = "SourceId"
-        case value = "Value"
+        case sourceId = "sourceId"
+        case value = "value"
     }
 }

@@ -123,7 +123,7 @@ namespace BidMachineInc.Ads.Api
         /// <param name="gppString">GPP string if applicable, complying with the IAB standard:
         /// <a href="https://github.com/InteractiveAdvertisingBureau/Global-Privacy-Platform/blob/main/Core/Consent%20String%20Specification.md">GPP String Format</a></param>
         /// <param name="gppIds">GPP ids.</param>
-        void SetGPP(string gppString, int[] gppIds)
+        public static void SetGPP(string gppString, int[] gppIds)
         {
             GetInstance().SetGPP(gppString, gppIds);
         }

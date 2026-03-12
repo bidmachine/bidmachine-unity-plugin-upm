@@ -87,10 +87,9 @@ namespace BidMachineInc.Ads.Ios
             _listener?.onAdClosed(new IosRewardedAd(), finished);
         }
 
-        [MonoPInvokeCallback(typeof(AdClosedCallback))]
+        [MonoPInvokeCallback(typeof(AdCallback))]
         private static void DidReward(IntPtr ad)
         {
-            // TODO: maybe raise reward from callback method above only when finished==true?
             _listener?.onAdRewarded(new IosRewardedAd());
         }
     }

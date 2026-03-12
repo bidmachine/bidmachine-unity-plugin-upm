@@ -45,7 +45,7 @@ final class BannerPresenter: BannerPresenterProtocol {
         case .left:
             banner.leftAnchor.constraint(equalTo: parentView.leftAnchor)
         case .right:
-            banner.rightAnchor.constraint(equalTo: parentView.centerXAnchor)
+            banner.rightAnchor.constraint(equalTo: parentView.rightAnchor)
         }
 
         let verticalConstraint = switch layout.verticalPin {

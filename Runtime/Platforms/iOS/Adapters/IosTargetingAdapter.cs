@@ -54,10 +54,10 @@ namespace BidMachineInc.Ads.Ios
                 longitude = source.DeviceLocation.Longitude,
             };
 
-            var iOSExternalUsers = new IosExternalUserId[source.ExternalUserIds.Length];
+            var iosExternalUsers = new IosExternalUserId[source.ExternalUserIds.Length];
             for (int i = 0; i < source.ExternalUserIds.Length; i++)
             {
-                iOSExternalUsers[i] = new IosExternalUserId
+                iosExternalUsers[i] = new IosExternalUserId
                 {
                     sourceId = source.ExternalUserIds[i].SourceId,
                     value = source.ExternalUserIds[i].Value,
@@ -82,7 +82,8 @@ namespace BidMachineInc.Ads.Ios
                 storeCategory = source.StoreCategory,
                 storeSubCategories = source.StoreSubCategories,
                 framework = source.Framework,
-                externalUserIds = iOSExternalUsers,
+                isPaid = source.IsPaid,
+                externalUserIds = iosExternalUsers,
                 blockedDomains = blockedDomains,
                 blockedCategories = blockedCategories,
                 blockedApplications = blockedApplications,

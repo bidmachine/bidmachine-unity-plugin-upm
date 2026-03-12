@@ -18,12 +18,12 @@ namespace BidMachineInc.Ads.Api
 
         // Deprecated aliases
         [Obsolete("Use AuctionResult.DealId instead.")]
-        public string DealID { get; set; }
+        public string DealID { get => DealId; set => DealId = value; }
         [Obsolete("Use AuctionResult.Cid instead.")]
-        public string CID { get; set; }
+        public string CID { get => Cid; set => Cid = value; }
         [Obsolete("Use AuctionResult.CreativeId instead.")]
-        public string CreativeID { get; set; }
+        public string CreativeID { get => CreativeId; set => CreativeId = value; }
         [Obsolete("Use AuctionResult.BidId instead.")]
-        public string BidID { get; set; }
+        public string BidID { get => BidId; set => BidId = value; }
     }
 }

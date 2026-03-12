@@ -33,7 +33,7 @@ namespace BidMachineInc.Ads.Common
 
     public interface IAdRequest
     {
-        [System.Obsolete("Use GetAuctionResultObject() instead.")]
+        [Obsolete("Use GetAuctionResultObject() instead.")]
         string GetAuctionResult();
 
         AuctionResult GetAuctionResultObject();
