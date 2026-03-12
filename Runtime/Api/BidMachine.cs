@@ -4,7 +4,7 @@ namespace BidMachineInc.Ads.Api
 {
     public sealed class BidMachine
     {
-        public const string UnityPluginVersion = "3.4.0";
+        public const string UnityPluginVersion = "3.6.0";
 
         public const int BannerHorizontalCenter = 1;
         public const int BannerHorizontalLeft = 3;
