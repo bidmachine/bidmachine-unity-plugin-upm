@@ -1,0 +1,16 @@
+root = true
+
+# Global defaults
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+# C# defaults
+[**/*.cs]
+indent_style = space
+indent_size = 4
+
+# Disable "namespace doesn't match folder structure" for all C# files in this tool
+dotnet_diagnostic.IDE0130.severity = none
+resharper_check_namespace_highlighting = none
