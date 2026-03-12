@@ -1,6 +1,7 @@
 #if UNITY_ANDROID || BIDMACHINE_DEV
 using System;
 using UnityEngine;
+using UnityEngine.Scripting;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
 
@@ -21,11 +22,13 @@ namespace BidMachineInc.Ads.Android
             this.factory = factory;
         }
 
+        [Preserve]
         public void onRequestFailed(AndroidJavaObject request, AndroidJavaObject error)
         {
             listener.onRequestFailed(factory(request), AndroidUnityConverter.GetError(error));
         }
 
+        [Preserve]
         public void onRequestExpired(AndroidJavaObject request)
         {
             listener.onRequestExpired(factory(request));

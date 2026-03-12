@@ -1,6 +1,7 @@
 #if UNITY_ANDROID || BIDMACHINE_DEV
 using System;
 using UnityEngine;
+using UnityEngine.Scripting;
 using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads.Android
@@ -12,11 +13,13 @@ namespace BidMachineInc.Ads.Android
                                            Func<AndroidJavaObject, IRewardedAd> adProvider
         ) : base(className, listener, adProvider) { }
 
+        [Preserve]
         public void onAdClosed(AndroidJavaObject ad, bool finished)
         {
             listener.onAdClosed(adProvider(ad), finished);
         }
 
+        [Preserve]
         public void onAdRewarded(AndroidJavaObject ad)
         {
             listener.onAdRewarded(adProvider(ad));
