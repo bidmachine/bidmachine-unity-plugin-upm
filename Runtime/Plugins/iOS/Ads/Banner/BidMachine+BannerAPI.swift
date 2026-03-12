@@ -36,7 +36,7 @@ public func bannerShow(y: Int, x: Int) -> Bool {
     if horizontal == nil {
         print("[BidMachine plugin] ⚠️ Warning: Invalid vertical position: \(x). Check BidMachine Unity plugin README.md '# BANNER / MREC' section for valid values. Using center as default.")
     }
-    
+
     let adLayout = AdLayout(
         verticalPin: vertical ?? .bottom,
         horizontalPin: horizontal ?? .center

@@ -24,7 +24,7 @@ final class BidMachineUnityBridge {
         bidmachine: instance,
         presenter: fullscreenAdPresenter
     )
-    
+
     lazy var bannerBridge = AdBridgeFactory.banner(
         bidmachine: instance,
         presenter: bannerPresenter
@@ -34,12 +34,12 @@ final class BidMachineUnityBridge {
 
     private let fullscreenAdPresenter: FullscreenAdPresenter
     private let bannerPresenter: BannerPresenter
-    
+
     init(instance: BidMachineSdk) {
         self.instance = instance
 
         let rootViewController = UIApplication.unityRootViewController
-        
+
         self.fullscreenAdPresenter = FullscreenAdPresenter(
             rootViewController: rootViewController
         )
@@ -47,7 +47,7 @@ final class BidMachineUnityBridge {
             viewController: rootViewController
         )
     }
-    
+
     func initialize(with sourceId: String) {
         instance.initializeSdk(sourceId)
     }
@@ -55,56 +55,56 @@ final class BidMachineUnityBridge {
     func setEndpoint(url: String) {
         instance.installFeature(Constant.endpointKey, url)
     }
-    
+
     func setLoggingEnabled(_ enabled: Bool) {
         instance.populate {
             $0.withLoggingMode(enabled)
         }
     }
-    
+
     func setTestEnabled(_ enabled: Bool) {
         instance.populate {
             $0.withTestMode(enabled)
         }
     }
-    
+
     func setTargeting(parameters: TargetingParameters) {
         instance.targetingInfo.populate { info in
             info.withTargetingParameters(parameters)
         }
     }
-    
+
     func setConsentConfig(_ configString: String, consent: Bool) {
         instance.regulationInfo.populate {
             $0.withGDPRConsent(consent)
             $0.withGDPRConsentString(configString)
         }
     }
-    
+
     func setGDPRZone(_ gdpr: Bool) {
         instance.regulationInfo.populate {
             $0.withGDPRZone(gdpr)
         }
     }
-    
+
     func setCoppa(_ flag: Bool) {
         instance.regulationInfo.populate {
             $0.withCOPPA(flag)
         }
     }
-    
+
     func setUSPrivacy(_ privacyText: String) {
         instance.regulationInfo.populate {
             $0.withUSPrivacyString(privacyText)
         }
     }
-    
+
     func setGPP(_ gppString: String, ids: [UInt32]) {
         instance.regulationInfo.populate {
             $0.withGPP(gppString, ids)
         }
     }
-    
+
     func setPublisher(_ publisher: Publisher) {
         instance.publisherInfo.populate {
             $0.withCategories(publisher.categories)

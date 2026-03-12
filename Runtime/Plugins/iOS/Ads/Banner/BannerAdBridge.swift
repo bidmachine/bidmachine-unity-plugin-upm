@@ -30,7 +30,7 @@ final class BannerAdBridge: AdBridge<BidMachineBanner> {
         hide()
         super.destroy()
     }
-    
+
     override func didReceiveAd() {
         if let loadedAd {
             presenter.prepareForPresentation(loadedAd)
@@ -42,7 +42,7 @@ final class BannerAdBridge: AdBridge<BidMachineBanner> {
     func show(with layout: AdLayout) -> Bool {
         presenter.present(with: layout, size: size.cgSize)
     }
-    
+
     func hide() {
         presenter.hideBanner()
     }

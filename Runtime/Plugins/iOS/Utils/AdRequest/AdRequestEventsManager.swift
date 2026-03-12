@@ -14,7 +14,7 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
     private var requestSuccessClosure: CRequestSuccessCallback?
     private var requestFailureClosure: CRequestFailureCallback?
     private var requestExpiredClosure: CRequestExpiredCallback?
-    
+
     init(
         onSuccess: @escaping CRequestSuccessCallback,
         onFailure: @escaping CRequestFailureCallback,
@@ -24,7 +24,7 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
         self.requestFailureClosure = onFailure
         self.requestSuccessClosure = onSuccess
     }
-    
+
     func handle(_ event: AdRequestEvent) {
         switch event {
         case let .adLoaded(ad):
@@ -32,7 +32,7 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
 
         case let .adLoadFailed(error):
             notifyRequestFailed(with: error)
-            
+
         case let .adExpired(ad):
             adIsExpired = true
             notifyRequestExpired(ad)
@@ -50,7 +50,7 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
 
         requestFailureClosure?(errorPtr)
     }
-    
+
     private func notifyRequestSuccess(_ ad: BidMachineAdProtocol) {
         guard let result = ad.auctionInfo.resultJsonString else {
             return

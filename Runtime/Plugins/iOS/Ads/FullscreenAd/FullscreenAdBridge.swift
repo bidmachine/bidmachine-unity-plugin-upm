@@ -10,7 +10,7 @@ import BidMachine
 
 final class FullscreenAdBridge<T: PresentingAd>: AdBridge<T> {
     private let adPresenter: FullscreenAdPresenterProtocol
-    
+
     init(
         instance: BidMachineSdk,
         defaultPlacementFormat: PlacementFormat,

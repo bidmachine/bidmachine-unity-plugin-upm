@@ -15,15 +15,15 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
         case underlying(Error)
         case unableToCastToProvidedType
     }
-    
+
     typealias Ad = T
-    
+
     private let bidMachine: BidMachineSdk
-    
+
     init(bidMachine: BidMachineSdk) {
         self.bidMachine = bidMachine
     }
-    
+
     func load(
         request: AdRequest,
         callback: @escaping (Result<Ad, RequestError>) -> Void
@@ -51,10 +51,10 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
             callback(.failure(.underlying(error)))
         }
     }
-    
+
     private func createAuctionRequest(from adRequest: AdRequest) throws -> BidMachineAuctionRequest {
 #warning("timeout setting is not available since 3.3.0")
-        
+
         // Get placement safely
         guard let placement = try? bidMachine.placement(from: adRequest.format, builder: { builder in
             if let placementId = adRequest.placementId {
@@ -64,7 +64,7 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
         }) else {
             throw RequestError.unableToGetPlacement
         }
-        
+
         // Create auction request
         let request = bidMachine.auctionRequest(placement: placement) { builder in
             adRequest.priceFloors.forEach {
@@ -75,7 +75,7 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
             }
             builder.withUnitConfigurations(adRequest.configurations)
         }
-        
+
         return request
     }
 }

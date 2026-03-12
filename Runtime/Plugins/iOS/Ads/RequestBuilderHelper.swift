@@ -14,7 +14,7 @@ enum RequestBuilderHelper {
         bridge: AdBridge<Ad>
     ) {
         let jsonString = String(cString: jsonString)
-        
+
         do {
             let paramsList: KeyValueList<String, String> = try JSONStringDecoder.decode(
                 from: jsonString
@@ -27,13 +27,13 @@ enum RequestBuilderHelper {
             print("Error parsing custom params: \(error.localizedDescription)")
         }
     }
-    
+
     static func setPriceFloorParams<Ad: BidMachineAdProtocol>(
         jsonString: UnsafePointer<CChar>,
         bridge: AdBridge<Ad>
     ) {
         let jsonString = String(cString: jsonString)
-        
+
         do {
             let parametersList: PriceFloorParameters = try JSONStringDecoder.decode(
                 from: jsonString
@@ -43,14 +43,14 @@ enum RequestBuilderHelper {
             print("Error parsing price floor params: \(error.localizedDescription)")
         }
     }
-    
+
     static func setNetworks<Ad: BidMachineAdProtocol>(
         _ networks: UnsafePointer<CChar>,
         bridge: AdBridge<Ad>
     ) {
         let networksString = String(cString: networks)
         let networksNames = NetworksNamesDecoder.decode(from: networksString)
-        
+
         bridge.setNetworks(networksNames)
     }
 }

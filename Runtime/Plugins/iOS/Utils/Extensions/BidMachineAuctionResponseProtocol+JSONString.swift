@@ -12,7 +12,7 @@ extension BidMachineAuctionResponseProtocol {
     var resultJsonString: String? {
         let customParameters = Helper.createKeyValueListCastingValues(from: customParams)
         let customExtras = Helper.createKeyValueListCastingValues(from: customExtras)
-        
+
         let result = AuctionResultDTO(
             dealId: dealId,
             demandSource: demandSource,
@@ -44,7 +44,7 @@ private struct AuctionResultDTO: Encodable {
     let creativeID: String?
     let bidID: String
     let price: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case dealId = "DealID"
         case demandSource = "DemandSource"
@@ -55,7 +55,7 @@ private struct AuctionResultDTO: Encodable {
         case bidID = "BidID"
         case price = "Price"
     }
-    
+
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.dealId, forKey: .dealId)

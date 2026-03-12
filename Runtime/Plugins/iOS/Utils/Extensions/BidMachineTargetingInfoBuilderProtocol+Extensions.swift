@@ -12,10 +12,10 @@ extension BidMachineTargetingInfoBuilderProtocol {
     @discardableResult
     func withTargetingParameters(_ parameters: TargetingParameters) -> Self {
         self.withUserId(parameters.userId)
-        
+
         let userGender = BidMachine.UserGender(parameters.gender)
         self.withUserGender(userGender)
-        
+
         let keywords = parameters.keywords.joined(separator: ",")
         self.withKeywords(keywords)
 
@@ -27,7 +27,7 @@ extension BidMachineTargetingInfoBuilderProtocol {
         self.withStoreURL(parameters.storeURL)
         self.withStoreCategory(parameters.storeCategory)
         self.withStoreSubCategories(parameters.storeSubCategories)
-        
+
         let frameworkName = BidMachine.FrameworkName(parameters.framework)
         self.withFrameworkName(frameworkName)
 

@@ -13,18 +13,18 @@ struct TargetingParameters {
         let latitude: Double
         let longitude: Double
     }
-    
+
     struct ExternalUser {
         let sourceId: String
         let value: String
     }
-    
+
     enum Gender: Int, Decodable {
         case female = 0
         case male
         case omitted
     }
-    
+
     enum Framework: String, Decodable {
         case unity, native
     }

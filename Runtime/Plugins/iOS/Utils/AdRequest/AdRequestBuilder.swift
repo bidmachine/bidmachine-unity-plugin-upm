@@ -1,5 +1,5 @@
 //
-//  AdRequestBuider.swift
+//  AdRequestBuilder.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 02/10/2024.
@@ -18,7 +18,7 @@ struct AdRequest {
     let priceFloors: [PriceFloorParameter]
 }
 
-final class AdRequestBuider {
+final class AdRequestBuilder {
     private var format: PlacementFormat?
     private var payload: String?
     private var placementId: String?
@@ -43,31 +43,31 @@ final class AdRequestBuider {
             priceFloors: priceFloors ?? []
         )
     }
-    
+
     func setTimeout(_ interval: TimeInterval) {
         timeout = interval
     }
-    
+
     func setPlacementID(_ id: String) {
         placementId = id
     }
-    
+
     func setBidPayload(_ payload: String) {
         self.payload = payload
     }
-    
+
     func setNetworks(_ networks: [String]) {
         self.networks = networks
     }
-    
+
     func setPriceFloorParameters(_ parameters: [PriceFloorParameter]) {
         self.priceFloors = parameters
     }
-    
+
     func setPlacementFormat(_ format: PlacementFormat) {
         self.format = format
     }
-    
+
     func setCustomParameters(_ parameters: [String: String]) {
         self.customParameters = parameters
     }
