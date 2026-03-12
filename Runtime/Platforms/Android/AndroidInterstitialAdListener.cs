@@ -1,3 +1,4 @@
+#if UNITY_ANDROID || BIDMACHINE_DEV
 using System;
 using UnityEngine;
 using BidMachineInc.Ads.Common;
@@ -17,3 +18,4 @@ namespace BidMachineInc.Ads.Android
         }
     }
 }
+#endif

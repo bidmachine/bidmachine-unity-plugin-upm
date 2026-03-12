@@ -1,3 +1,4 @@
+#if UNITY_IOS || BIDMACHINE_DEV
 using System;
 using BidMachineInc.Ads.Api;
 
@@ -26,3 +27,4 @@ namespace BidMachineInc.Ads.Ios
         }
     }
 }
+#endif

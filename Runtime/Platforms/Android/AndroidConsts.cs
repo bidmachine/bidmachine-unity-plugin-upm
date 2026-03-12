@@ -1,3 +1,4 @@
+#if UNITY_ANDROID || BIDMACHINE_DEV
 namespace BidMachineInc.Ads.Android
 {
     internal static class AndroidConsts
@@ -21,3 +22,4 @@ namespace BidMachineInc.Ads.Android
         public const string RewardedRequestListenerClassName = "io.bidmachine.rewarded.RewardedRequest$AdRequestListener";
     }
 }
+#endif

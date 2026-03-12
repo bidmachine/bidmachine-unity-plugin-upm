@@ -1,3 +1,4 @@
+#if UNITY_IOS || BIDMACHINE_DEV
 using System;
 using System.Runtime.InteropServices;
 
@@ -14,3 +15,4 @@ namespace BidMachineInc.Ads.Ios
         }
     }
 }
+#endif

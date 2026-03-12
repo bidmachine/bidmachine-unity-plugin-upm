@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if (!UNITY_ANDROID && !UNITY_IOS) || BIDMACHINE_DEV
+using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
 
@@ -379,3 +380,4 @@ namespace BidMachineInc.Ads.Dummy
         }
     }
 }
+#endif
