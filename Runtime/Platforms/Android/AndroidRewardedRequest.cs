@@ -1,43 +1,37 @@
-﻿#if PLATFORM_ANDROID
+﻿#if UNITY_ANDROID || BIDMACHINE_DEV
 using UnityEngine;
-using BidMachineInc.Ads.Common;
 using BidMachineInc.Ads.Api;
+using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads.Android
 {
     internal class AndroidRewardedRequest : IAdRequest
     {
-        private readonly AndroidJavaObject jObject;
-
-        public AndroidJavaObject JavaObject => jObject;
+        public AndroidJavaObject JavaObject { get; }
 
         public AndroidRewardedRequest(AndroidJavaObject javaObject)
         {
-            jObject = javaObject;
+            JavaObject = javaObject;
         }
 
         public string GetAuctionResult()
         {
-            return AndroidUnityConverter.GetAuctionResult(
-                jObject.Call<AndroidJavaObject>("getAuctionResult")
-            );
+            return AndroidUnityConverter.GetAuctionResult(JavaObject.Call<AndroidJavaObject>("getAuctionResult"));
         }
 
         public AuctionResult GetAuctionResultObject()
         {
-            return AndroidUnityConverter.GetAuctionResultObject(
-                jObject.Call<AndroidJavaObject>("getAuctionResult")
-            );
+            return AndroidUnityConverter.GetAuctionResultObject(JavaObject.Call<AndroidJavaObject>("getAuctionResult"));
         }
 
         public bool IsDestroyed()
         {
-            return jObject.Call<bool>("isDestroyed");
+            return JavaObject.Call<bool>("isDestroyed");
         }
 
         public bool IsExpired()
         {
-            return jObject.Call<bool>("isExpired");
+            return JavaObject.Call<bool>("isExpired");
         }
     }
 }

@@ -33,7 +33,7 @@ namespace BidMachineInc.Ads.Common
 
     public interface IAdRequest
     {
-        [System.Obsolete("Use GetAuctionResultObject() instead.")]
+        [Obsolete("Use GetAuctionResultObject() instead.")]
         string GetAuctionResult();
 
         AuctionResult GetAuctionResultObject();
@@ -52,9 +52,6 @@ namespace BidMachineInc.Ads.Common
         IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams);
 
         IAdRequestBuilder SetCustomParams(CustomParams customParams);
-
-        [Obsolete("IAdRequestListener is deprecated. Use SetListener(IAdAuctionRequestListener listener) instead.")]
-        IAdRequestBuilder SetListener(IAdRequestListener listener);
 
         IAdRequestBuilder SetListener(IAdAuctionRequestListener listener);
 
@@ -77,9 +74,6 @@ namespace BidMachineInc.Ads.Common
 
         void onRequestExpired(TAdRequest request) { }
     }
-
-    [Obsolete("IAdRequestListener is deprecated. Use IAdAuctionRequestListener instead.")]
-    public interface IAdRequestListener : ICommonAdRequestListener<IAdRequest, string, BMError> { }
 
     public interface IAdAuctionRequestListener : ICommonAdRequestListener<IAdRequest, AuctionResult, BMError> { }
 }

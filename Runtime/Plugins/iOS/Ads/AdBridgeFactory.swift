@@ -21,7 +21,7 @@ enum AdBridgeFactory {
         bridge.forceMarkAdAsFinishedOnClose = true
         return bridge
     }
-    
+
     static func rewarded<Presenter: FullscreenAdPresenterProtocol>(
         bidmachine: BidMachineSdk,
         presenter: Presenter
@@ -33,7 +33,7 @@ enum AdBridgeFactory {
         )
         return bridge
     }
-    
+
     static func banner(
         bidmachine: BidMachineSdk,
         presenter: BannerPresenterProtocol

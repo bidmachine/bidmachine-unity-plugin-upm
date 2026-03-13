@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace BidMachineInc.Ads.Api
@@ -7,7 +6,7 @@ namespace BidMachineInc.Ads.Api
     [Serializable]
     public sealed class PriceFloorParams
     {
-        public Dictionary<string, double> PriceFloors { get; } = new Dictionary<string, double>();
+        public Dictionary<string, double> PriceFloors { get; } = new();
 
         public PriceFloorParams AddPriceFloor(double price)
         {

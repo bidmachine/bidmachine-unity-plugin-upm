@@ -22,7 +22,7 @@ final class FullscreenAdPresenter: FullscreenAdPresenterProtocol {
     init(rootViewController: UIViewController?) {
         self.viewController = rootViewController
     }
-        
+
     func present(ad: PresentingAd) {
         ad.controller = viewController
         ad.presentAd()

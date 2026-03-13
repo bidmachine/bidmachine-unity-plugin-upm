@@ -1,20 +1,29 @@
-﻿#if PLATFORM_ANDROID
+﻿#if UNITY_ANDROID || BIDMACHINE_DEV
 using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
-using System;
 
 namespace BidMachineInc.Ads.Android
 {
     internal class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
-        private readonly AndroidAdRequestBuilder requestBuilder;
+        private readonly AndroidAdRequestBuilder _requestBuilder;
 
+        public AndroidBannerRequestBuilder(AdPlacementConfig config)
+        {
+            _requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.BannerRequestBuilderClassName, AndroidConsts.BannerRequestListenerClassName,
+                delegate(AndroidJavaObject request)
+                {
+                    return new AndroidBannerRequest(request);
+                },
+                config
+            );
+        }
+
+        [System.Obsolete("Use constructor with AdPlacementConfig parameter")]
         public AndroidBannerRequestBuilder()
         {
-            requestBuilder = new AndroidAdRequestBuilder(
-                AndroidConsts.BannerRequestBuilderClassName,
-                AndroidConsts.BannerRequestListenerClassName,
+            _requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.BannerRequestBuilderClassName, AndroidConsts.BannerRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidBannerRequest(request);
@@ -24,67 +33,66 @@ namespace BidMachineInc.Ads.Android
 
         public IAdRequestBuilder SetSize(BannerSize size)
         {
-            requestBuilder.JavaObject.Call<AndroidJavaObject>(
-                "setSize",
-                AndroidNativeConverter.GetBannerSize(size)
-            );
+            _requestBuilder.JavaObject.Call<AndroidJavaObject>("setSize", AndroidNativeConverter.GetBannerSize(size));
+
+            return this;
+        }
+
+        public IAdRequestBuilder SetSize(BannerAdSize size)
+        {
+            _requestBuilder.JavaObject.Call<AndroidJavaObject>("setSize", AndroidNativeConverter.GetBannerAdSize(size ?? BannerAdSize.Banner));
 
             return this;
         }
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            return requestBuilder.SetAdContentType(contentType);
+            return _requestBuilder.SetAdContentType(contentType);
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            return requestBuilder.SetTargetingParams(targetingParams);
+            return _requestBuilder.SetTargetingParams(targetingParams);
         }
 
         public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            return requestBuilder.SetPriceFloorParams(priceFloorParams);
+            return _requestBuilder.SetPriceFloorParams(priceFloorParams);
         }
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            return requestBuilder.SetCustomParams(customParams);
-        }
-
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            return requestBuilder.SetListener(listener);
+            return _requestBuilder.SetCustomParams(customParams);
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            return requestBuilder.SetListener(listener);
+            return _requestBuilder.SetListener(listener);
         }
 
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            return requestBuilder.SetLoadingTimeOut(loadingTimeout);
+            return _requestBuilder.SetLoadingTimeOut(loadingTimeout);
         }
 
         public IAdRequestBuilder SetPlacementId(string placementId)
         {
-            return requestBuilder.SetPlacementId(placementId);
+            return _requestBuilder.SetPlacementId(placementId);
         }
 
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            return requestBuilder.SetBidPayload(bidPayload);
+            return _requestBuilder.SetBidPayload(bidPayload);
         }
 
         public IAdRequestBuilder SetNetworks(string networks)
         {
-            return requestBuilder.SetNetworks(networks);
+            return _requestBuilder.SetNetworks(networks);
         }
 
         public IAdRequest Build()
         {
-            return requestBuilder.Build();
+            return _requestBuilder.Build();
         }
     }
 }

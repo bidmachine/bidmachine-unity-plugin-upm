@@ -1,4 +1,4 @@
-﻿#if PLATFORM_ANDROID
+﻿#if UNITY_ANDROID || BIDMACHINE_DEV
 using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
@@ -7,30 +7,40 @@ namespace BidMachineInc.Ads.Android
 {
     internal class AndroidBannerView : IBannerView
     {
-        private readonly AndroidJavaObject jObject;
+        private readonly AndroidJavaObject _jObject;
 
-        private AndroidJavaClass jcBannerShowHelper;
-        private AndroidJavaObject jBannerShowHelper;
+        private AndroidJavaClass _jcBannerShowHelper;
+        private AndroidJavaObject _joBannerShowHelper;
 
         public AndroidBannerView()
         {
-            jObject = new AndroidJavaObject(
-                AndroidConsts.BannerViewClassName,
-                AndroidNativeConverter.GetActivity()
-            );
+            _jObject = new AndroidJavaObject(AndroidConsts.BannerViewClassName, AndroidNativeConverter.GetActivity());
         }
 
-        public AndroidBannerView(AndroidJavaObject javaObject) => this.jObject = javaObject;
+        public AndroidBannerView(AndroidJavaObject javaObject) => _jObject = javaObject;
 
         public bool Show(int yAxis, int xAxis, IBannerView view, BannerSize size)
         {
             var jSize = AndroidNativeConverter.GetBannerSize(size);
-            var client = ((BannerView)view).Client;
             return GetBannerShowHelper()
                 .Call<bool>(
                     "show",
                     AndroidNativeConverter.GetActivity(),
-                    ((AndroidBannerView)client).jObject,
+                    _jObject,
+                    jSize,
+                    xAxis,
+                    yAxis
+                );
+        }
+
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerAdSize size)
+        {
+            var jSize = AndroidNativeConverter.GetBannerAdSize(size ?? BannerAdSize.Banner);
+            return GetBannerShowHelper()
+                .Call<bool>(
+                    "show",
+                    AndroidNativeConverter.GetActivity(),
+                    _jObject,
                     jSize,
                     xAxis,
                     yAxis
@@ -42,29 +52,31 @@ namespace BidMachineInc.Ads.Android
             GetBannerShowHelper().Call("hide");
         }
 
+        public BannerAdSize GetAdSize()
+        {
+            return AndroidUnityConverter.GetBannerAdSize(_jObject.Call<AndroidJavaObject>("getAdSize"));
+        }
+
         public bool CanShow()
         {
-            return jObject.Call<bool>("canShow");
+            return _jObject.Call<bool>("canShow");
         }
 
         public void Destroy()
         {
-            jObject.Call("destroy");
+            _jObject.Call("destroy");
         }
 
         public void Load(IAdRequest request)
         {
-            jObject.Call<AndroidJavaObject>("load", ((AndroidBannerRequest)request).JavaObject);
+            _jObject.Call<AndroidJavaObject>("load", ((AndroidBannerRequest)request).JavaObject);
         }
 
         public void SetListener(IAdListener<IBannerView> listener)
         {
-            if (listener == null)
-            {
-                return;
-            }
+            if (listener == null) return;
 
-            jObject.Call<AndroidJavaObject>(
+            _jObject.Call<AndroidJavaObject>(
                 "setListener",
                 new AndroidAdListener<IBannerView, IAdListener<IBannerView>>(
                     AndroidConsts.BannerListenerClassName,
@@ -79,12 +91,10 @@ namespace BidMachineInc.Ads.Android
 
         private AndroidJavaObject GetBannerShowHelper()
         {
-            jcBannerShowHelper ??= new AndroidJavaClass(
-                "io.bidmachine.ads.extensions.unity.banner.BannerShowHelper"
-            );
-            jBannerShowHelper ??= jcBannerShowHelper.CallStatic<AndroidJavaObject>("get");
+            _jcBannerShowHelper ??= new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper");
+            _joBannerShowHelper ??= _jcBannerShowHelper.CallStatic<AndroidJavaObject>("get");
 
-            return jBannerShowHelper;
+            return _joBannerShowHelper;
         }
     }
 }

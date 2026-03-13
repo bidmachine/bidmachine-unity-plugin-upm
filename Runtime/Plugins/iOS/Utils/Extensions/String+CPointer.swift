@@ -16,7 +16,7 @@ extension String {
         let ptr = UnsafeMutablePointer<CChar>.allocate(capacity: capacity)
 
         strncpy(ptr, utf8Pointer, capacity)
-        
+
         return ptr
     }
 }

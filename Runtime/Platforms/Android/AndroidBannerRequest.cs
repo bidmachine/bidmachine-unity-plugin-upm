@@ -1,4 +1,4 @@
-﻿#if PLATFORM_ANDROID
+﻿#if UNITY_ANDROID || BIDMACHINE_DEV
 using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
@@ -7,42 +7,41 @@ namespace BidMachineInc.Ads.Android
 {
     internal class AndroidBannerRequest : IBannerRequest
     {
-        private readonly AndroidJavaObject jObject;
-
-        public AndroidJavaObject JavaObject => jObject;
+        public AndroidJavaObject JavaObject { get; }
 
         public AndroidBannerRequest(AndroidJavaObject jObject)
         {
-            this.jObject = jObject;
+            JavaObject = jObject;
         }
 
         public BannerSize GetSize()
         {
-            return AndroidUnityConverter.GetBannerSize(jObject.Call<AndroidJavaObject>("getSize"));
+            return AndroidUnityConverter.GetBannerSize(JavaObject.Call<AndroidJavaObject>("getSize"));
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return AndroidUnityConverter.GetBannerAdSize(JavaObject.Call<AndroidJavaObject>("getBannerAdSize"));
         }
 
         public string GetAuctionResult()
         {
-            return AndroidUnityConverter.GetAuctionResult(
-                jObject.Call<AndroidJavaObject>("getAuctionResult")
-            );
+            return AndroidUnityConverter.GetAuctionResult(JavaObject.Call<AndroidJavaObject>("getAuctionResult"));
         }
 
         public AuctionResult GetAuctionResultObject()
         {
-            return AndroidUnityConverter.GetAuctionResultObject(
-                jObject.Call<AndroidJavaObject>("getAuctionResult")
-            );
+            return AndroidUnityConverter.GetAuctionResultObject(JavaObject.Call<AndroidJavaObject>("getAuctionResult"));
         }
 
         public bool IsDestroyed()
         {
-            return jObject.Call<bool>("isDestroyed");
+            return JavaObject.Call<bool>("isDestroyed");
         }
 
         public bool IsExpired()
         {
-            return jObject.Call<bool>("isExpired");
+            return JavaObject.Call<bool>("isExpired");
         }
     }
 }

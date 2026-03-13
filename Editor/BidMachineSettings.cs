@@ -1,22 +1,22 @@
-#if UNITY_EDITOR
+// ReSharper disable CheckNamespace
+
 using UnityEditor;
 using UnityEngine;
 
 namespace BidMachineInc.Ads.Editor
 {
-    public class BidMachineSettings : ScriptableObject
+    internal static class BidMachineSettings
     {
-        [MenuItem("BidMachine/SDK Documentation")]
+        [MenuItem("BidMachine/SDK Documentation", false, 1)]
         public static void OpenDocumentation()
         {
-            Application.OpenURL("https://docs.bidmachine.io/docs");
+            Application.OpenURL("https://developers.bidmachine.io/sdk/overview");
         }
 
-        [MenuItem("BidMachine/Remove plugin")]
-        public static void RemoveBidmachinePlugin()
+        [MenuItem("BidMachine/Remove Plugin", false, 12)]
+        public static void RemoveBidMachinePlugin()
         {
             RemoveHelper.RemovePlugin();
         }
     }
 }
-#endif

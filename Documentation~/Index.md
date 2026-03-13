@@ -281,296 +281,198 @@ customParams.AddParam("key", "value");
 
 You can get `AuctionResult` in two ways:
 
-- Through `IAdRequestListener`. Use `AuctionResult` from `onRequestSuccess` callback
+- Through `IAdAuctionRequestListener`. Use `AuctionResult` from `onRequestSuccess` callback.
 
 ```csharp
-public  void  onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
+public void onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
 {
-// Use AuctionResult from onRequestSuccess callback
+    Debug.Log($"Auction succeeded: {auctionResult}");
 }
 ```
 
-- Through getter. Each `IAdRequest` has an option to retrieve auction result information after it has been loaded.
+- Through a getter after the request has been loaded.
 
 ```csharp
-adRequest.getAuctionResult();
+AuctionResult auctionResult = adRequest.GetAuctionResultObject();
 ```
 
 ## Banner / MREC
 
-BannerSize
+Use `BannerAdSize` to describe the requested banner size.
 
-| Type         | Size                   | Description              |
-| ------------ | ---------------------- | ------------------------ |
-| Size_320x50  | width: 320 height: 50  | Regular banner size.     |
-| Size_728x90  | width: 728 height: 90  | Banner size for tablets. |
-| Size_300x250 | width: 300 height: 250 | MREC banner size.        |
+| Type                            | Size                   | Description                       |
+| ------------------------------- | ---------------------- | --------------------------------- |
+| `BannerAdSize.Banner`           | width: 320 height: 50  | Regular banner size.              |
+| `BannerAdSize.Leaderboard`      | width: 728 height: 90  | Banner size for tablets.          |
+| `BannerAdSize.MediumRectangle`  | width: 300 height: 250 | MREC banner size.                 |
+| `BannerAdSize.Adaptive(w, h)`   | custom                 | Adaptive banner with custom size. |
 
-To set up event listeners for Banner ads, follow these steps:
+`BannerAdSize.GetMaxAdaptiveHeight(width)` can be used to calculate a recommended adaptive height.
 
-**Set the listener for banner view events**:
-
-```csharp
-private class BannerListener : IAdListener<IBannerView>
-{
-    // Implement the methods for banner events here
-    ...
-}
-
-bannerView.SetListener(new BannerListener());
-```
-
-Load banner:
+To set up event listeners for banner ads, use `IAdListener<IBannerView>` for the view and `IAdAuctionRequestListener` for the request.
 
 ```csharp
-bannerView.Load(bannerRequest);
-```
-
-Show banner or MREC:
-
-```csharp
-bannerView.Show(
-            BidMachine.BANNER_VERTICAL_BOTTOM,
-            BidMachine.BANNER_HORIZONTAL_CENTER,
-            bannerView,
-            bannerRequest.getSize());
-```
-
-Hide banner or MREC:
-
-```csharp
-bannerView.Hide();
-```
-
-Destroy banner or MREC (you should destroy request each time before new request):
-
-```csharp
-bannerView.Destroy();
+private class BannerListener : IAdListener<IBannerView> { }
+private class BannerRequestListener : IAdAuctionRequestListener { }
 ```
 
 Code example:
 
 ```csharp
-public class BidMachineController : MonoBehaviour
-{
-   IAdRequestListener bannerRequestListener = new BannerRequestListener();
-   BannerRequest bannerRequest = new BannerRequestBuilder()
-       .SetSize(...) // Set BannerSize. Required
-       .SetTargetingParams(...) // Set targating params
-       .SetPriceFloorParams(...) // Set price floor parameters
-       .SetPlacementId("placement_id") // Set placement id
-       .SetLoadingTimeOut(1000) // Set loading timeout in milliseconds
-       .SetListener(bannerRequestListener) // Set banner request listener
-       .Build();
+var config = AdPlacementConfig.BannerBuilder(BannerAdSize.Banner)
+    .WithPlacementId("placement_banner")
+    .WithCustomParams(customParams)
+    .Build();
 
-   IAdListener<IBannerView> bannerListener = new BannerListener();
+var bannerRequest = (IBannerRequest)new BannerRequest.Builder(config)
+    .SetTargetingParams(targetingParams)
+    .SetPriceFloorParams(priceFloorParams)
+    .SetLoadingTimeOut(1000)
+    .SetListener(new BannerRequestListener())
+    .Build();
 
-   BannerView bannerView = new BannerView();
-   bannerView.SetListener(bannerListener); // Set banner listener
-   bannerView.Load(bannerRequest); // Load banner ad
+var bannerView = new BannerView();
+bannerView.SetListener(new BannerListener());
+bannerView.Load(bannerRequest);
 
-   class BannerListener : IAdListener<IBannerView>
-   {
-       ...
-   }
+var requestedSize = bannerRequest.GetBannerAdSize();
+bannerView.Show(
+    BidMachine.BannerVerticalBottom,
+    BidMachine.BannerHorizontalCenter,
+    bannerView,
+    requestedSize);
+```
 
-   class BannerRequestListener : IAdRequestListener
-   {
-       ...
-   }
-}
+You can hide and destroy the banner view with:
+
+```csharp
+bannerView.Hide();
+bannerView.Destroy();
+```
+
+If you need the currently rendered banner size after load, use:
+
+```csharp
+BannerAdSize loadedSize = bannerView.GetAdSize();
 ```
 
 ## Interstitial
 
-AdContentType
-
-By default AdContentType is AdContentType.All
+By default `AdContentType` is `AdContentType.All`.
 
 | Type                 | Description                                             |
 | -------------------- | ------------------------------------------------------- |
-| AdContentType.All    | Flag to request both Video and Static ad content types. |
-| AdContentType.Static | Flag to request Static ad content type only.            |
-| AdContentType.Video  | Flag to request Video ad content type only.             |
+| `AdContentType.All`    | Request both video and static ad content types.       |
+| `AdContentType.Static` | Request static ad content type only.                  |
+| `AdContentType.Video`  | Request video ad content type only.                   |
 
-To set Interstitial Ad listeners:
-
-```csharp
-interstitialAd.SetListener(this);
-```
-
-To check if Interstitial ad can show:
+Example code:
 
 ```csharp
-interstitialAd.CanShow();
-```
+var config = AdPlacementConfig.InterstitialBuilder(AdContentType.All)
+    .WithPlacementId("placement_interstitial")
+    .WithCustomParams(customParams)
+    .Build();
 
-To load interstitial:
+var interstitialRequest = new InterstitialRequest.Builder(config)
+    .SetTargetingParams(targetingParams)
+    .SetPriceFloorParams(priceFloorParams)
+    .SetLoadingTimeOut(1000)
+    .SetListener(new InterstitialRequestListener())
+    .Build();
 
-```csharp
+var interstitialAd = new InterstitialAd();
+interstitialAd.SetListener(new InterstitialListener());
 interstitialAd.Load(interstitialRequest);
+
+if (interstitialAd.CanShow())
+{
+    interstitialAd.Show();
+}
 ```
 
-To show interstitial:
-
-```csharp
-interstitialAd.Show();
-```
-
-To destroy interstitial (you should destroy request each time before new request):
+To destroy an interstitial ad:
 
 ```csharp
 interstitialAd.Destroy();
 ```
 
+## Rewarded
+
 Example code:
 
 ```csharp
-public class BidMachineController : MonoBehaviour
+var config = AdPlacementConfig.RewardedBuilder(AdContentType.Video)
+    .WithPlacementId("placement_rewarded")
+    .WithCustomParams(customParams)
+    .Build();
+
+var rewardedRequest = new RewardedRequest.Builder(config)
+    .SetTargetingParams(targetingParams)
+    .SetPriceFloorParams(priceFloorParams)
+    .SetLoadingTimeOut(1000)
+    .SetListener(new RewardedRequestListener())
+    .Build();
+
+var rewardedAd = new RewardedAd();
+rewardedAd.SetListener(new RewardedAdListener());
+rewardedAd.Load(rewardedRequest);
+
+if (rewardedAd.CanShow())
 {
-    IAdRequestListener interstitialRequestListener = new InterstitialRequestListener();
-    IAdRequest interstitialRequest = new InterstitialRequest.Builder()
-        .SetAdContentType(...)
-        .SetTargetingParams(...) // Set targating params
-        .SetPriceFloorParams(...) // Set price floor parameters
-        .SetPlacementId("placement_id") // Set placement id
-        .SetLoadingTimeOut(1000) // Set loading timeout in milliseconds
-        .SetListener(interstitialRequestListener) // Set request listener
-        .Build();
-
-    IInterstitialAdListener interstitialListener = new InterstitialListener();
-
-    InterstitialAd interstitialAd = new InterstitialAd();
-    interstitialAd.SetListener(interstitialListener);
-    interstitialAd.Load(interstitialRequest);
-
-    class InterstitialListener : IInterstitialAdListener
-    {
-        ...
-    }
-
-    class InterstitialRequestListener : IAdRequestListener
-    {
-        ...
-    }
+    rewardedAd.Show();
 }
 ```
 
-## Rewarded
-
-To set Rewarded Ad listeners:
-
-```csharp
-rewardedAd.SetListener(this);
-```
-
-To check if Rewarded ad can show:
-
-```csharp
-rewardedAd.CanShow();
-```
-
-To load rewarded ad:
-
-```csharp
-rewardedAd.Load(rewardedRequest);
-```
-
-To show rewarded ad:
-
-```csharp
-rewardedAd.Show();
-```
-
-To destroy rewarded ad (you should destroy request each time before new request):
+To destroy a rewarded ad:
 
 ```csharp
 rewardedAd.Destroy();
 ```
 
-Example code:
-
-```csharp
-public class BidMachineController : MonoBehaviour
-{
-    IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
-    IAdRequest rewardedRequest = new RewardedRequest.Builder()
-        .SetTargetingParams(...) // Set targating params
-        .SetPriceFloorParams(...) // Set price floor parameters
-        .SetPlacementId("placement_id") // Set placement id
-        .SetLoadingTimeOut(1000) // Set loading timeout in milliseconds
-        .SetListener(rewardedRequestListener) // Set request listener
-        .Build();
-
-    IRewardedAdListener rewardedListener = new RewardedAdListener();
-
-    RewardedAd rewardedAd = new InterstitialAd();
-    rewardedAd.SetListener(rewardedListener);
-    rewardedAd.Load(rewardedRequest);
-
-    class RewardedAdListener : IRewardedAdListener
-    {
-        ...
-    }
-
-    class RewardedRequestListener : IAdRequestListener
-    {
-        ...
-    }
-}
-```
-
 ### Callbacks usage rules
 
-**Run Callbacks in Main Unity Thread**
+**Run callbacks on the Unity main thread**
 
-Callbacks in BidMachine plugin are executed in the main Android or iOS threads (not in the main Unity thread). What does it mean for you?
-It’s not recommended to perform any UI changes (change colours, positions, sizes, texts and so on) directly in our callback functions.
+Callbacks in the BidMachine plugin are executed on the main Android or iOS threads, not on the main Unity thread. Avoid changing Unity UI state directly inside BidMachine callbacks.
 
-So, how to react on BidMachine events to prevent multithreading problems? The simplest way is to use flags and Update() method of MonoBehaviour class:
+One simple approach is to cache the callback data and process it in `Update()`:
 
 ```csharp
-public class SomeClass : MonoBehaviour, IAdRequestListener
+public class SomeClass : MonoBehaviour, IAdAuctionRequestListener
 {
-    bool requestFinished = false;
-    string result;
+    private bool requestFinished;
+    private AuctionResult auctionResult;
 
-    public void onRequestSuccess(IAdRequest request, string auctionResult)
+    public void onRequestSuccess(IAdRequest request, AuctionResult result)
     {
-        result = auctionResult;
-
-        // It's important to set flag to true only after all required parameters
+        auctionResult = result;
         requestFinished = true;
     }
 
-    // Update method always performs in the main Unity thread
-    void Update()
+    private void Update()
     {
-        if(requestFinished)
+        if (!requestFinished)
         {
-            // Don't forget to set flag to false
-            requestFinished = false;
-            // Do something with result
+            return;
         }
+
+        requestFinished = false;
+        Debug.Log($"BidMachine. Request success: {auctionResult}");
     }
 }
 ```
 
-Other, maybe more comfortable way is to use UnityMainThreadDispatcher. To use it:
-
-Download script and prefab.
-Import downloaded files to your project.
-Add UnityMainThreadDispatcher.prefab to your scene (or to all scenes, where you want to make UI changes after BidMachine callbacks).
-Use UnityMainThreadDispatcher.Instance().Enqueue()``` method to perform changes:
+Another option is to dispatch work onto the Unity main thread with a dispatcher utility:
 
 ```csharp
-public void onRequestSuccess(IAdRequest request, string auctionResult)
+public void onRequestSuccess(IAdRequest request, AuctionResult result)
 {
-    UnityMainThreadDispatcher.Instance().Enqueue(()=> {
-        Debug.Log($"BidMachine. Request success: {auctionResult}")
+    UnityMainThreadDispatcher.Instance().Enqueue(() =>
+    {
+        Debug.Log($"BidMachine. Request success: {result}");
     });
 }
 ```
 
-And finally, the official way to send message to Unity Main thread is UnitySendMessage.
-It’s platform dependent, so it’s required to make changes in Android native code and iOS native code.
+You can also use `UnitySendMessage`, but that approach is platform-specific and requires native-side changes.

@@ -6,7 +6,7 @@ namespace BidMachineInc.Ads.Api
     [Serializable]
     public sealed class CustomParams
     {
-        public Dictionary<string, string> Params { get; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Params { get; } = new();
 
         public CustomParams() { }
 

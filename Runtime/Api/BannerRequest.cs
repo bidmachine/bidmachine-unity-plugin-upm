@@ -1,57 +1,77 @@
 ﻿using BidMachineInc.Ads.Common;
-using BidMachineInc.Ads.Api;
 
 namespace BidMachineInc.Ads.Api
 {
     public sealed class BannerRequest : IBannerRequest
     {
-        private readonly IBannerRequest client;
+        private readonly IBannerRequest _client;
 
         public BannerRequest(IBannerRequest client)
         {
-            this.client = client;
+            _client = client;
         }
 
+        [System.Obsolete("GetSize() is deprecated. Use GetBannerAdSize() instead.")]
         public BannerSize GetSize()
         {
-            return client.GetSize();
+            return _client.GetSize();
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return _client.GetBannerAdSize();
         }
 
         public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+            return _client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()
         {
-            return client.GetAuctionResultObject();
+            return _client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()
         {
-            return client.IsDestroyed();
+            return _client.IsDestroyed();
         }
 
         public bool IsExpired()
         {
-            return client.IsExpired();
+            return _client.IsExpired();
         }
 
         public class Builder : IBannerRequestBuilder
         {
-            private readonly IBannerRequestBuilder client;
+            private readonly IBannerRequestBuilder _client;
 
-            public Builder()
+            public Builder(AdPlacementConfig config)
             {
-                client = BidMachineClientFactory.GetBannerRequestBuilder();
+                _client = BidMachineClientFactory.GetBannerRequestBuilder(config);
             }
 
+            [System.Obsolete("Use Builder(AdPlacementConfig) constructor instead.")]
+            public Builder()
+            {
+                _client = BidMachineClientFactory.GetBannerRequestBuilder();
+            }
+
+            [System.Obsolete("SetSize(BannerSize) is deprecated. Use AdPlacementConfig.BannerBuilder(BannerAdSize) instead.")]
             public IAdRequestBuilder SetSize(BannerSize size)
             {
-                client.SetSize(size);
+                _client.SetSize(size);
                 return this;
             }
 
+            [System.Obsolete("SetSize(BannerAdSize) is deprecated. Use AdPlacementConfig.BannerBuilder(BannerAdSize) instead.")]
+            public IAdRequestBuilder SetSize(BannerAdSize size)
+            {
+                _client.SetSize(size);
+                return this;
+            }
+
+            [System.Obsolete("SetAdContentType() is deprecated in SDK 3.5.0+.")]
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 return this;
@@ -59,61 +79,57 @@ namespace BidMachineInc.Ads.Api
 
             public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
-                client.SetTargetingParams(targetingParams);
+                _client.SetTargetingParams(targetingParams);
                 return this;
             }
 
-            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParameters)
+            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
             {
-                client.SetPriceFloorParams(priceFloorParameters);
+                _client.SetPriceFloorParams(priceFloorParams);
                 return this;
             }
 
+            [System.Obsolete("SetCustomParams() is deprecated. Use AdPlacementConfig.BannerBuilder().WithCustomParams() instead.")]
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
-                client.SetCustomParams(customParams);
-                return this;
-            }
-
-            public IAdRequestBuilder SetListener(IAdRequestListener listener)
-            {
-                client.SetListener(listener);
+                _client.SetCustomParams(customParams);
                 return this;
             }
 
             public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
-                client.SetListener(listener);
+                _client.SetListener(listener);
                 return this;
             }
 
-            public IAdRequestBuilder SetLoadingTimeOut(int value)
+            public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
             {
-                client.SetLoadingTimeOut(value);
+                _client.SetLoadingTimeOut(loadingTimeout);
                 return this;
             }
 
+            [System.Obsolete("SetPlacementId() is deprecated. Use AdPlacementConfig.BannerBuilder().WithPlacementId() instead.")]
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
-                client.SetPlacementId(placementId);
+                _client.SetPlacementId(placementId);
                 return this;
             }
 
-            public IAdRequestBuilder SetBidPayload(string bidPayLoad)
+            public IAdRequestBuilder SetBidPayload(string bidPayload)
             {
-                client.SetBidPayload(bidPayLoad);
+                _client.SetBidPayload(bidPayload);
                 return this;
             }
 
             public IAdRequestBuilder SetNetworks(string networks)
             {
-                client.SetNetworks(networks);
+                _client.SetNetworks(networks);
                 return this;
             }
 
             public IAdRequest Build()
             {
-                return client.Build();
+                return _client.Build();
             }
         }
     }

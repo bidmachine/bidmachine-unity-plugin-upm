@@ -20,13 +20,13 @@ class AdBridge<Ad: BidMachineAdProtocol> {
     var canShowAd: Bool {
         loadedAd?.canShow == true
     }
-    
+
     var forceMarkAdAsFinishedOnClose: Bool {
         get { adCallbacksHandler.forceCloseFinished }
         set { adCallbacksHandler.forceCloseFinished = newValue }
     }
-    
-    private var builder: AdRequestBuider?
+
+    private var builder: AdRequestBuilder?
     private var adRequestEventsManager: AdRequestEventsManager?
     private(set) var loadedAd: Ad?
 
@@ -34,7 +34,7 @@ class AdBridge<Ad: BidMachineAdProtocol> {
     private let requestLoader: AdRequestLoader<Ad>
     private let adCallbacksHandler = BidMachineAdHandler()
     private let defaultPlacementFormat: PlacementFormat
-    
+
     init(
         instance: BidMachineSdk,
         defaultPlacementFormat: PlacementFormat
@@ -50,7 +50,7 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         adRequestEventsManager = nil
         adCallbacksHandler.reset()
     }
-    
+
     func load() {
         // No additional logic required in this implementation. Added to match unity interface
     }
@@ -68,67 +68,67 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         self.adRequestEventsManager = adRequestEventsManager
         self.adCallbacksHandler.setRequestEventsHandler(adRequestEventsManager)
     }
-    
+
     func setLoadCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setLoadCallback(callback)
     }
-    
+
     func setLoadFailedCallback(_ callback: @escaping CAdFailureCallback) {
         adCallbacksHandler.setLoadFailedCallback(callback)
     }
-    
+
     func setPresentCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setPresentCallback(callback)
     }
-    
+
     func setPresentFailedCallback(_ callback: @escaping CAdFailureCallback) {
         adCallbacksHandler.setFailToPresentCallback(callback)
     }
-    
+
     func setImpressionCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setImpressionReceivedCallback(callback)
     }
-    
+
     func setExpiredCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setExpirationCallback(callback)
     }
-    
+
     func setClosedCallback(_ callback: @escaping CAdClosedCallback) {
         adCallbacksHandler.setCloseCallback(callback)
     }
-    
+
     func setRewardedCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setRewardedCallback(callback)
     }
-    
+
     func setTimeout(_ interval: TimeInterval) {
         getRequestBuilder().setTimeout(interval)
     }
-    
+
     func setPlacementID(_ id: String) {
         getRequestBuilder().setPlacementID(id)
     }
-    
+
     func setPriceFloorParams(_ parameters: [PriceFloorParameter]) {
         getRequestBuilder().setPriceFloorParameters(parameters)
     }
-    
+
     func setCustomParams(_ parameters: [String: String]) {
         getRequestBuilder().setCustomParameters(parameters)
     }
-    
+
     func setBidPayload(_ payload: String) {
         getRequestBuilder().setBidPayload(payload)
     }
-    
+
     func setPlacementFormat(_ format: PlacementFormat) {
         getRequestBuilder().setPlacementFormat(format)
     }
-    
+
     func setNetworks(_ networks: [String]) {
         getRequestBuilder().setNetworks(networks)
     }
-    
+
     func loadRequest() {
         let adRequest = getRequestBuilder().build()
 
@@ -142,21 +142,21 @@ class AdBridge<Ad: BidMachineAdProtocol> {
             }
         }
     }
-    
+
     func didReceiveAd() {
         loadedAd?.loadAd()
     }
-    
-    private func getRequestBuilder() -> AdRequestBuider {
+
+    private func getRequestBuilder() -> AdRequestBuilder {
         if let builder {
             return builder
         }
-        let builder = AdRequestBuider()
+        let builder = AdRequestBuilder()
         builder.setPlacementFormat(defaultPlacementFormat)
         self.builder = builder
         return builder
     }
-    
+
     private func handleAdRequestSuccess(_ ad: Ad) {
         loadedAd = ad
         ad.delegate = adCallbacksHandler

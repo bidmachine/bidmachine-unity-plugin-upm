@@ -18,8 +18,8 @@ struct KeyValueList<K: Hashable & Codable, V: Codable> {
 
 extension KeyValueBox: Codable {
     enum CodingKeys: String, CodingKey {
-        case key = "Key"
-        case value = "Value"
+        case key = "key"
+        case value = "value"
     }
 }
 

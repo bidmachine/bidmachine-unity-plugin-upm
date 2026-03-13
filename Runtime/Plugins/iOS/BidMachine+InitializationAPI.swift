@@ -37,7 +37,7 @@ public func setTestEnabled(_ enabled: Bool) {
 @_cdecl("BidMachineSetTargetingParams")
 public func setTargetingParams(_ json: UnsafePointer<CChar>) {
     let jsonString = String(cString: json)
-    
+
     guard let data = jsonString.data(using: .utf8) else {
         return
     }
@@ -86,7 +86,7 @@ public func setGPP(gppString: UnsafePointer<CChar>, gppIds: UnsafePointer<UInt32
 @_cdecl("BidMachineSetPublisher")
 public func setPublisher(_ json: UnsafePointer<CChar>) {
     let jsonString = String(cString: json)
-    
+
     guard let data = jsonString.data(using: .utf8) else {
         return
     }

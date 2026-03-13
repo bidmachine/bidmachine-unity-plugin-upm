@@ -1,56 +1,55 @@
-#if PLATFORM_ANDROID
+#if UNITY_ANDROID || BIDMACHINE_DEV
 using System;
+using UnityEngine;
+using UnityEngine.Scripting;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
-using UnityEngine;
 
 namespace BidMachineInc.Ads.Android
 {
-    internal class AndroidAdListener<TAd, TAdListener>
-        : AndroidJavaProxy,
-            ICommonAdListener<AndroidJavaObject, AndroidJavaObject>
-        where TAdListener : ICommonAdListener<TAd, BMError>
+    internal class AndroidAdListener<TAd, TAdListener> : AndroidJavaProxy, ICommonAdListener<AndroidJavaObject, AndroidJavaObject> where TAdListener : ICommonAdListener<TAd, BMError>
     {
         protected readonly TAdListener listener;
 
         protected readonly Func<AndroidJavaObject, TAd> adProvider;
 
-        internal AndroidAdListener(
-            string className,
-            TAdListener listener,
-            Func<AndroidJavaObject, TAd> adProvider
-        )
-            : base(className)
+        internal AndroidAdListener(string className, TAdListener listener, Func<AndroidJavaObject, TAd> adProvider) : base(className)
         {
             this.listener = listener;
             this.adProvider = adProvider;
         }
 
+        [Preserve]
         public void onAdExpired(AndroidJavaObject ad)
         {
             listener.onAdExpired(adProvider(ad));
         }
 
+        [Preserve]
         public void onAdImpression(AndroidJavaObject ad)
         {
             listener.onAdImpression(adProvider(ad));
         }
 
+        [Preserve]
         public void onAdLoaded(AndroidJavaObject ad)
         {
             listener.onAdLoaded(adProvider(ad));
         }
 
+        [Preserve]
         public void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
             listener.onAdLoadFailed(adProvider(ad), AndroidUnityConverter.GetError(error));
         }
 
+        [Preserve]
         public void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
             listener.onAdShowFailed(adProvider(ad), AndroidUnityConverter.GetError(error));
         }
 
+        [Preserve]
         public void onAdShown(AndroidJavaObject ad)
         {
             listener.onAdShown(adProvider(ad));

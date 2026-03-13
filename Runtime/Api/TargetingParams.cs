@@ -8,7 +8,7 @@ namespace BidMachineInc.Ads.Api
     {
         public string UserId { get; set; }
 
-        public Gender gender { get; set; }
+        public Gender UserGender { get; set; }
 
         public int BirthdayYear { get; set; }
 
@@ -28,11 +28,11 @@ namespace BidMachineInc.Ads.Api
 
         public string[] StoreSubCategories { get; set; }
 
-        public string Framework { get; set; }
+        public string Framework => "unity";
 
         public bool IsPaid { get; set; }
 
-        public ExternalUserId[] externalUserIds { get; set; }
+        public ExternalUserId[] ExternalUserIds { get; set; }
 
         public HashSet<string> BlockedDomains { get; set; }
 
@@ -57,5 +57,11 @@ namespace BidMachineInc.Ads.Api
             Male,
             Omitted,
         }
+
+        // Deprecated aliases
+        [Obsolete("Use TargetingParams.UserGender instead.")]
+        public Gender gender { get => UserGender; set => UserGender = value; }
+        [Obsolete("Use TargetingParams.ExternalUserIds instead.")]
+        public ExternalUserId[] externalUserIds { get => ExternalUserIds; set => ExternalUserIds = value; }
     }
 }
