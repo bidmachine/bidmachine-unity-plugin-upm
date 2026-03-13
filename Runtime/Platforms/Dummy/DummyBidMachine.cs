@@ -1,4 +1,4 @@
-﻿#if (!UNITY_ANDROID && !UNITY_IOS) || BIDMACHINE_DEV
+﻿#if UNITY_EDITOR || BIDMACHINE_DEV
 using UnityEngine;
 using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;

@@ -174,10 +174,10 @@ namespace BidMachineInc.Ads.Android
         public static AndroidJavaObject GetPublisher(Publisher publisher)
         {
             var jObject = new AndroidJavaObject("io.bidmachine.Publisher$Builder");
-            jObject.Call("setId", publisher.Id);
-            jObject.Call("setName", publisher.Name);
-            jObject.Call("setDomain", publisher.Domain);
-            jObject.Call("addCategories", GetArrayList(publisher.Categories));
+            jObject = jObject.Call<AndroidJavaObject>("setId", publisher.Id);
+            jObject = jObject.Call<AndroidJavaObject>("setName", publisher.Name);
+            jObject = jObject.Call<AndroidJavaObject>("setDomain", publisher.Domain);
+            jObject = jObject.Call<AndroidJavaObject>("addCategories", GetArrayList(publisher.Categories));
 
             return jObject.Call<AndroidJavaObject>("build");
         }
@@ -188,14 +188,14 @@ namespace BidMachineInc.Ads.Android
 
             if (targetingParams == null) return jObject;
 
-            jObject.Call("setUserId", targetingParams.UserId);
+            jObject = jObject.Call<AndroidJavaObject>("setUserId", targetingParams.UserId);
 
             var jcGender = new AndroidJavaClass("io.bidmachine.utils.Gender");
             var jGender = jcGender.GetStatic<AndroidJavaObject>(targetingParams.UserGender.ToString());
-            jObject.Call("setGender", jGender);
+            jObject = jObject.Call<AndroidJavaObject>("setGender", jGender);
 
-            jObject.Call("setBirthdayYear", GetObject(targetingParams.BirthdayYear));
-            jObject.Call("setKeywords", (object)targetingParams.Keywords);
+            jObject = jObject.Call<AndroidJavaObject>("setBirthdayYear", GetObject(targetingParams.BirthdayYear));
+            jObject = jObject.Call<AndroidJavaObject>("setKeywords", (object)targetingParams.Keywords);
 
             var location = targetingParams.DeviceLocation;
             if (location != null)
@@ -203,24 +203,24 @@ namespace BidMachineInc.Ads.Android
                 var jLocation = new AndroidJavaObject("android.location.Location", location.Provider);
                 jLocation.Call("setLatitude", location.Latitude);
                 jLocation.Call("setLongitude", location.Longitude);
-                jObject.Call("setDeviceLocation", jLocation);
+                jObject = jObject.Call<AndroidJavaObject>("setDeviceLocation", jLocation);
             }
 
-            jObject.Call("setCountry", targetingParams.Country);
+            jObject = jObject.Call<AndroidJavaObject>("setCountry", targetingParams.Country);
 
-            jObject.Call("setCity", targetingParams.City);
+            jObject = jObject.Call<AndroidJavaObject>("setCity", targetingParams.City);
 
-            jObject.Call("setZip", targetingParams.Zip);
+            jObject = jObject.Call<AndroidJavaObject>("setZip", targetingParams.Zip);
 
-            jObject.Call("setStoreUrl", targetingParams.StoreUrl);
+            jObject = jObject.Call<AndroidJavaObject>("setStoreUrl", targetingParams.StoreUrl);
 
-            jObject.Call("setStoreCategory", targetingParams.StoreCategory);
+            jObject = jObject.Call<AndroidJavaObject>("setStoreCategory", targetingParams.StoreCategory);
 
-            jObject.Call("setStoreSubCategories", (object)targetingParams.StoreSubCategories);
+            jObject = jObject.Call<AndroidJavaObject>("setStoreSubCategories", (object)targetingParams.StoreSubCategories);
 
-            jObject.Call("setFramework", targetingParams.Framework);
+            jObject = jObject.Call<AndroidJavaObject>("setFramework", targetingParams.Framework);
 
-            jObject.Call("setPaid", GetObject(targetingParams.IsPaid));
+            jObject = jObject.Call<AndroidJavaObject>("setPaid", GetObject(targetingParams.IsPaid));
 
             var externalUserIds = targetingParams.ExternalUserIds;
             if (externalUserIds != null)
@@ -231,7 +231,7 @@ namespace BidMachineInc.Ads.Android
                     var jExternalUserId = new AndroidJavaObject("io.bidmachine.ExternalUserId", externalUserId.SourceId, externalUserId.Value);
                     jArrayList.Call<bool>("add", jExternalUserId);
                 }
-                jObject.Call("setExternalUserIds", jArrayList);
+                jObject = jObject.Call<AndroidJavaObject>("setExternalUserIds", jArrayList);
             }
 
             var blockedApplications = targetingParams.BlockedApplications;
@@ -239,7 +239,7 @@ namespace BidMachineInc.Ads.Android
             {
                 foreach (string app in blockedApplications)
                 {
-                    jObject.Call("addBlockedApplication", app);
+                    jObject = jObject.Call<AndroidJavaObject>("addBlockedApplication", app);
                 }
             }
 
@@ -248,7 +248,7 @@ namespace BidMachineInc.Ads.Android
             {
                 foreach (string category in blockedCategories)
                 {
-                    jObject.Call("addBlockedAdvertiserIABCategory", category);
+                    jObject = jObject.Call<AndroidJavaObject>("addBlockedAdvertiserIABCategory", category);
                 }
             }
 
@@ -257,7 +257,7 @@ namespace BidMachineInc.Ads.Android
             {
                 foreach (string domain in blockedDomains)
                 {
-                    jObject.Call("addBlockedAdvertiserDomain", domain);
+                    jObject = jObject.Call<AndroidJavaObject>("addBlockedAdvertiserDomain", domain);
                 }
             }
 
