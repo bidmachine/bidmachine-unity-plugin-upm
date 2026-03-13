@@ -1,3 +1,4 @@
+using BidMachineInc.Ads.Api;
 using BidMachineInc.Ads.Common;
 
 namespace BidMachineInc.Ads
@@ -26,6 +27,18 @@ namespace BidMachineInc.Ads
 #endif
         }
 
+        internal static IBannerRequestBuilder GetBannerRequestBuilder(AdPlacementConfig config)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidBannerRequestBuilder(config);
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new Ios.IosBannerRequestBuilder(config);
+#else
+            return new Dummy.DummyBannerRequestBuilder();
+#endif
+        }
+
+        [System.Obsolete("Use GetBannerRequestBuilder(AdPlacementConfig) instead")]
         internal static IBannerRequestBuilder GetBannerRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -48,6 +61,18 @@ namespace BidMachineInc.Ads
 #endif
         }
 
+        internal static IAdRequestBuilder GetInterstitialRequestBuilder(AdPlacementConfig config)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidInterstitialRequestBuilder(config);
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new Ios.IosInterstitialRequestBuilder(config);
+#else
+            return new Dummy.DummyInterstitialRequestBuilder();
+#endif
+        }
+
+        [System.Obsolete("Use GetInterstitialRequestBuilder(AdPlacementConfig) instead")]
         internal static IAdRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -70,6 +95,18 @@ namespace BidMachineInc.Ads
 #endif
         }
 
+        internal static IAdRequestBuilder GetRewardedRequestBuilder(AdPlacementConfig config)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidRewardedRequestBuilder(config);
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new Ios.IosRewardedRequestBuilder(config);
+#else
+            return new Dummy.DummyRewardedRequestBuilder();
+#endif
+        }
+
+        [System.Obsolete("Use GetRewardedRequestBuilder(AdPlacementConfig) instead")]
         internal static IAdRequestBuilder GetRewardedRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR

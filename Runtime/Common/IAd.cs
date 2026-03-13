@@ -53,9 +53,6 @@ namespace BidMachineInc.Ads.Common
 
         IAdRequestBuilder SetCustomParams(CustomParams customParams);
 
-        [Obsolete("IAdRequestListener is deprecated. Use SetListener(IAdAuctionRequestListener listener) instead.")]
-        IAdRequestBuilder SetListener(IAdRequestListener listener);
-
         IAdRequestBuilder SetListener(IAdAuctionRequestListener listener);
 
         IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout);
@@ -77,9 +74,6 @@ namespace BidMachineInc.Ads.Common
 
         void onRequestExpired(TAdRequest request) { }
     }
-
-    [Obsolete("IAdRequestListener is deprecated. Use IAdAuctionRequestListener instead.")]
-    public interface IAdRequestListener : ICommonAdRequestListener<IAdRequest, string, BMError> { }
 
     public interface IAdAuctionRequestListener : ICommonAdRequestListener<IAdRequest, AuctionResult, BMError> { }
 }

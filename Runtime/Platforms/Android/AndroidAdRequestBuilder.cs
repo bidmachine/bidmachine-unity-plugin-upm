@@ -21,6 +21,14 @@ namespace BidMachineInc.Ads.Android
             _factory = factory;
         }
 
+        public AndroidAdRequestBuilder(string className, string listenerClassName, Func<AndroidJavaObject, IAdRequest> factory, AdPlacementConfig config)
+        {
+            var nativeConfig = AndroidNativeConverter.GetAdPlacementConfig(config);
+            JavaObject = new AndroidJavaObject(className, nativeConfig);
+            _listenerClassName = listenerClassName;
+            _factory = factory;
+        }
+
         public IAdRequestBuilder SetAdContentType(AdContentType adContentType)
         {
             string contentTypeString = adContentType.ToString();
@@ -45,15 +53,6 @@ namespace BidMachineInc.Ads.Android
             }
 
             JavaObject.Call<AndroidJavaObject>("setBidPayload", AndroidNativeConverter.GetObject(bidPayLoad));
-
-            return this;
-        }
-
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            if (listener == null) return this;
-
-            JavaObject.Call<AndroidJavaObject>("setListener", new AndroidAdRequestListener(_listenerClassName, listener, _factory));
 
             return this;
         }

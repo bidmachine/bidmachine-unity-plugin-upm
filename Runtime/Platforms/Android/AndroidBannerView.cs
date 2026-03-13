@@ -33,9 +33,28 @@ namespace BidMachineInc.Ads.Android
                 );
         }
 
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerAdSize size)
+        {
+            var jSize = AndroidNativeConverter.GetBannerAdSize(size ?? BannerAdSize.Banner);
+            return GetBannerShowHelper()
+                .Call<bool>(
+                    "show",
+                    AndroidNativeConverter.GetActivity(),
+                    _jObject,
+                    jSize,
+                    xAxis,
+                    yAxis
+                );
+        }
+
         public void Hide()
         {
             GetBannerShowHelper().Call("hide");
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return AndroidUnityConverter.GetBannerAdSize(_jObject.Call<AndroidJavaObject>("getAdSize"));
         }
 
         public bool CanShow()

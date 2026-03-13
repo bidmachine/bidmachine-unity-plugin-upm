@@ -10,6 +10,11 @@ namespace BidMachineInc.Ads.Ios
         {
             return RequestBridge.GetSize();
         }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return RequestBridge.GetBannerAdSize();
+        }
     }
 }
 #endif

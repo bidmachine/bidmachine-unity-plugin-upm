@@ -38,7 +38,6 @@ namespace BidMachineInc.Ads.Ios
         where TRequest: IAdRequest, new()
     {
 
-        private static IAdRequestListener RequestListener;
         private static IAdAuctionRequestListener AuctionListener;
 
         protected readonly TBridge RequestBuilderBridge;
@@ -112,14 +111,6 @@ namespace BidMachineInc.Ads.Ios
             return this;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            RequestListener = listener;
-            SetAdRequestDelegate();
-
-            return this;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             AuctionListener = listener;
@@ -140,7 +131,6 @@ namespace BidMachineInc.Ads.Ios
             string auctionString = Marshal.PtrToStringAuto(auctionResultUnmanagedPointer);
             var request = new TRequest();
 
-            RequestListener?.onRequestSuccess(request, auctionString);
             if (AuctionListener != null)
             {
                 var auctionResultWrapped = JsonUtility.FromJson<AuctionResultWrapper>(auctionString);
@@ -164,7 +154,6 @@ namespace BidMachineInc.Ads.Ios
                 Message = IosErrorBridge.GetErrorMessage(error)
             };
 
-            RequestListener?.onRequestFailed(request, bmError);
             AuctionListener?.onRequestFailed(request, bmError);
         }
 
@@ -175,7 +164,6 @@ namespace BidMachineInc.Ads.Ios
 
             var request = new TRequest();
 
-            RequestListener?.onRequestExpired(request);
             AuctionListener?.onRequestExpired(request);
         }
 
@@ -186,7 +174,7 @@ namespace BidMachineInc.Ads.Ios
 
         private static bool HasAnyListener()
         {
-            return AuctionListener != null || RequestListener != null;
+            return AuctionListener != null;
         }
     }
 

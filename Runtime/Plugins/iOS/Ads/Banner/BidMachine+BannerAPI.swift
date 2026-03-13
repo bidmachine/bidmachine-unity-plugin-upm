@@ -147,6 +147,11 @@ public func bannerGetSize() -> Int {
     iOSUnityBridge.bannerBridge.bannerSize
 }
 
+@_cdecl("BidMachineBannerGetAdSize")
+public func bannerGetAdSize() -> Int {
+    iOSUnityBridge.bannerBridge.bannerSize
+}
+
 @_cdecl("BidMachineSetBannerRequestDelegate")
 public func setBannerRequestCallbacks(
     onSuccess: @escaping CRequestSuccessCallback,

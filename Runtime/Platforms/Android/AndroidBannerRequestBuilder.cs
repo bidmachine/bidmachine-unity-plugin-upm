@@ -9,6 +9,18 @@ namespace BidMachineInc.Ads.Android
     {
         private readonly AndroidAdRequestBuilder _requestBuilder;
 
+        public AndroidBannerRequestBuilder(AdPlacementConfig config)
+        {
+            _requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.BannerRequestBuilderClassName, AndroidConsts.BannerRequestListenerClassName,
+                delegate(AndroidJavaObject request)
+                {
+                    return new AndroidBannerRequest(request);
+                },
+                config
+            );
+        }
+
+        [System.Obsolete("Use constructor with AdPlacementConfig parameter")]
         public AndroidBannerRequestBuilder()
         {
             _requestBuilder = new AndroidAdRequestBuilder(AndroidConsts.BannerRequestBuilderClassName, AndroidConsts.BannerRequestListenerClassName,
@@ -22,6 +34,13 @@ namespace BidMachineInc.Ads.Android
         public IAdRequestBuilder SetSize(BannerSize size)
         {
             _requestBuilder.JavaObject.Call<AndroidJavaObject>("setSize", AndroidNativeConverter.GetBannerSize(size));
+
+            return this;
+        }
+
+        public IAdRequestBuilder SetSize(BannerAdSize size)
+        {
+            _requestBuilder.JavaObject.Call<AndroidJavaObject>("setSize", AndroidNativeConverter.GetBannerAdSize(size ?? BannerAdSize.Banner));
 
             return this;
         }
@@ -44,11 +63,6 @@ namespace BidMachineInc.Ads.Android
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
             return _requestBuilder.SetCustomParams(customParams);
-        }
-
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            return _requestBuilder.SetListener(listener);
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)

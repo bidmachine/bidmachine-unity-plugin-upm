@@ -19,6 +19,11 @@ namespace BidMachineInc.Ads.Android
             return AndroidUnityConverter.GetBannerSize(JavaObject.Call<AndroidJavaObject>("getSize"));
         }
 
+        public BannerAdSize GetBannerAdSize()
+        {
+            return AndroidUnityConverter.GetBannerAdSize(JavaObject.Call<AndroidJavaObject>("getBannerAdSize"));
+        }
+
         public string GetAuctionResult()
         {
             return AndroidUnityConverter.GetAuctionResult(JavaObject.Call<AndroidJavaObject>("getAuctionResult"));

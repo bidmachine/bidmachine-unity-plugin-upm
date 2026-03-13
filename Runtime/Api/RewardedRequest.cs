@@ -33,8 +33,20 @@ namespace BidMachineInc.Ads.Api
 
         public sealed class Builder : IAdRequestBuilder
         {
-            private readonly IAdRequestBuilder _client = BidMachineClientFactory.GetRewardedRequestBuilder();
+            private readonly IAdRequestBuilder _client;
 
+            public Builder(AdPlacementConfig config)
+            {
+                _client = BidMachineClientFactory.GetRewardedRequestBuilder(config);
+            }
+
+            [System.Obsolete("Use Builder(AdPlacementConfig) constructor instead.")]
+            public Builder()
+            {
+                _client = BidMachineClientFactory.GetRewardedRequestBuilder();
+            }
+
+            [System.Obsolete("SetAdContentType() is deprecated. Use AdPlacementConfig.RewardedBuilder(AdContentType) instead.")]
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 _client.SetAdContentType(contentType);
@@ -53,15 +65,10 @@ namespace BidMachineInc.Ads.Api
                 return this;
             }
 
+            [System.Obsolete("SetCustomParams() is deprecated. Use AdPlacementConfig.RewardedBuilder().WithCustomParams() instead.")]
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
                 _client.SetCustomParams(customParams);
-                return this;
-            }
-
-            public IAdRequestBuilder SetListener(IAdRequestListener listener)
-            {
-                _client.SetListener(listener);
                 return this;
             }
 
@@ -77,6 +84,7 @@ namespace BidMachineInc.Ads.Api
                 return this;
             }
 
+            [System.Obsolete("SetPlacementId() is deprecated. Use AdPlacementConfig.RewardedBuilder().WithPlacementId() instead.")]
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 _client.SetPlacementId(placementId);

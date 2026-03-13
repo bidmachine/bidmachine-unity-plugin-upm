@@ -20,7 +20,7 @@ public class BidMachineController : MonoBehaviour
 
     private BannerView bannerView;
     private readonly IAdListener<IBannerView> bannerListener = new BannerListener();
-    private IAdRequest bannerRequest;
+    private IBannerRequest bannerRequest;
     private readonly IAdAuctionRequestListener bannerRequestListener = new BannerRequestListener();
 
     private InterstitialAd interstitialAd;
@@ -64,7 +64,6 @@ public class BidMachineController : MonoBehaviour
             StoreUrl = "https://play.google.com/store/apps/details?id=com.example.app",
             StoreCategory = "Category",
             StoreSubCategories = new string[] { "SubCategory1", "SubCategory2" },
-            Framework = "unity",
             IsPaid = true,
             externalUserIds = new ExternalUserId[]
             {
@@ -108,30 +107,32 @@ public class BidMachineController : MonoBehaviour
 
     public void LoadBanner()
     {
-        LoadBanner(BannerSize.Size_320x50);
+        LoadBanner(BannerAdSize.Banner);
     }
 
     public void LoadMrec()
     {
-        LoadBanner(BannerSize.Size_300x250);
+        LoadBanner(BannerAdSize.MediumRectangle);
     }
 
-    public void LoadBanner(BannerSize bannerSize)
+    public void LoadBanner(BannerAdSize bannerSize)
     {
         if (bannerRequest != null)
         {
             return;
         }
 
-        bannerRequest = new BannerRequest.Builder()
-            .SetSize(bannerSize)
+        var config = AdPlacementConfig.BannerBuilder(bannerSize)
+            .WithPlacementId("placement_bannerRequest")
+            .WithCustomParams(customParams)
+            .Build();
+
+        bannerRequest = (IBannerRequest)new BannerRequest.Builder(config)
             .SetPriceFloorParams(priceFloorParams)
-            // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_bannerRequest")
-            // .SetLoadingTimeOut(10 * 1000)
+            .SetTargetingParams(targetingParams)
+            .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetCustomParams(customParams)
             .SetListener(bannerRequestListener)
             .Build();
 
@@ -149,10 +150,10 @@ public class BidMachineController : MonoBehaviour
 
     public void ShowBannerView()
     {
-        var size = ((IBannerRequest)bannerRequest).GetSize();
+        var size = bannerRequest.GetBannerAdSize();
         bannerView?.Show(
-            BidMachine.BANNER_VERTICAL_BOTTOM,
-            BidMachine.BANNER_HORIZONTAL_CENTER,
+            BidMachine.BannerVerticalBottom,
+            BidMachine.BannerHorizontalCenter,
             bannerView,
             size
         );
@@ -182,15 +183,17 @@ public class BidMachineController : MonoBehaviour
             return;
         }
 
-        interstitialRequest = new InterstitialRequest.Builder()
-            .SetAdContentType(AdContentType.All)
-            // .SetPriceFloorParams(priceParam)
-            // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_interstitialRequest")
-            // .SetLoadingTimeOut(10 * 1000)
+        var config = AdPlacementConfig.InterstitialBuilder(AdContentType.All)
+            .WithPlacementId("placement_interstitialRequest")
+            .WithCustomParams(customParams)
+            .Build();
+
+        interstitialRequest = new InterstitialRequest.Builder(config)
+            .SetPriceFloorParams(priceFloorParams)
+            .SetTargetingParams(targetingParams)
+            .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetCustomParams(customParams)
             .SetListener(interstitialRequestListener)
             .Build();
 
@@ -240,15 +243,17 @@ public class BidMachineController : MonoBehaviour
             return;
         }
 
-        rewardedRequest = new RewardedRequest.Builder()
-            // .SetPriceFloorParams(priceFloorParams)
-            // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_rewardedRequest")
+        var config = AdPlacementConfig.RewardedBuilder(AdContentType.Video)
+            .WithPlacementId("placement_rewardedRequest")
+            .WithCustomParams(customParams)
+            .Build();
+
+        rewardedRequest = new RewardedRequest.Builder(config)
+            .SetPriceFloorParams(priceFloorParams)
+            .SetTargetingParams(targetingParams)
             .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetAdContentType(AdContentType.Video)
-            // .SetCustomParams(customParams)
             .SetListener(rewardedRequestListener)
             .Build();
 

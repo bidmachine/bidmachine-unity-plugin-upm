@@ -1,4 +1,6 @@
 #if UNITY_IOS || BIDMACHINE_DEV
+using BidMachineInc.Ads.Api;
+
 namespace BidMachineInc.Ads.Ios
 {
     public interface IIosAdBridge
@@ -27,6 +29,8 @@ namespace BidMachineInc.Ads.Ios
         public bool Show(int yAxis, int xAxis);
 
         public void Hide();
+
+        public BannerAdSize GetBannerAdSize();
     }
 
     public interface IIosFullscreenAdBridge : IIosAdBridge

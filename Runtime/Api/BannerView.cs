@@ -21,9 +21,19 @@ namespace BidMachineInc.Ads.Api
             return _client.Show(yAxis, xAxis, view, size);
         }
 
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerAdSize size)
+        {
+            return _client.Show(yAxis, xAxis, view, size);
+        }
+
         public void Hide()
         {
             _client.Hide();
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return _client.GetAdSize();
         }
 
         public bool CanShow()

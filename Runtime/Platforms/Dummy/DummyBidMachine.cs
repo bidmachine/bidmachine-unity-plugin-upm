@@ -76,6 +76,8 @@ namespace BidMachineInc.Ads.Dummy
 
     internal class DummyBannerAd : IBannerView
     {
+        private BannerAdSize _bannerAdSize = BannerAdSize.Banner;
+
         public bool CanShow()
         {
             Debug.LogWarning($"Call to CanShow() {Consts.DummyMessage}");
@@ -104,8 +106,20 @@ namespace BidMachineInc.Ads.Dummy
 
         public bool Show(int yAxis, int xAxis, IBannerView ad, BannerSize size)
         {
+            _bannerAdSize = BannerAdSize.FromLegacyBannerSize(size);
             Debug.LogWarning($"Call to Show(int, int, IBannerAd, BannerSize) {Consts.DummyMessage}");
             return false;
+        }
+
+        public bool Show(int yAxis, int xAxis, IBannerView ad, BannerAdSize size)
+        {
+            var bannerAdSize = size ?? BannerAdSize.Banner;
+            return Show(yAxis, xAxis, ad, bannerAdSize.ToLegacyBannerSize());
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return _bannerAdSize;
         }
     }
 
@@ -129,15 +143,9 @@ namespace BidMachineInc.Ads.Dummy
             return this;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IBannerRequest, string, BMError>) {Consts.DummyMessage}");
-            return this;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            Debug.LogWarning($"Call to SetListener(IAdAuctionRequestListener) {Consts.DummyMessage}");
             return this;
         }
 
@@ -180,6 +188,12 @@ namespace BidMachineInc.Ads.Dummy
         public IAdRequestBuilder SetSize(BannerSize size)
         {
             Debug.LogWarning($"Call to SetSize(BannerSize) {Consts.DummyMessage}");
+            return this;
+        }
+
+        public IAdRequestBuilder SetSize(BannerAdSize size)
+        {
+            Debug.LogWarning($"Call to SetSize(BannerAdSize) {Consts.DummyMessage}");
             return this;
         }
     }
@@ -233,15 +247,9 @@ namespace BidMachineInc.Ads.Dummy
             return this;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IInterstitialRequest, string, BMError>) {Consts.DummyMessage}");
-            return this;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning($"Call to SetListener(IAdAuctionRequestListener<IInterstitialRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            Debug.LogWarning($"Call to SetListener(IAdAuctionRequestListener) {Consts.DummyMessage}");
             return this;
         }
 
@@ -331,15 +339,9 @@ namespace BidMachineInc.Ads.Dummy
             return this;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IRewardedRequest, string, BMError>) {Consts.DummyMessage}");
-            return this;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
-            Debug.LogWarning($"Call to SetListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Consts.DummyMessage}");
+            Debug.LogWarning($"Call to SetListener(IAdAuctionRequestListener) {Consts.DummyMessage}");
             return this;
         }
 

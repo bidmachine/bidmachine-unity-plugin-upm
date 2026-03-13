@@ -20,6 +20,9 @@ namespace BidMachineInc.Ads.Ios
         [DllImport("__Internal")]
         private static extern int BidMachineBannerGetSize();
 
+        [DllImport("__Internal")]
+        private static extern int BidMachineBannerGetAdSize();
+
         public AuctionResult GetAuctionResultObject()
         {
             string resultString = GetAuctionResult();
@@ -58,6 +61,19 @@ namespace BidMachineInc.Ads.Ios
                 1 => BannerSize.MediumRectangle,
                 2 => BannerSize.Leaderboard,
                 _ => BannerSize.Banner
+            };
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            int rawValue = BidMachineBannerGetAdSize();
+
+            return rawValue switch
+            {
+                0 => BannerAdSize.Banner,
+                1 => BannerAdSize.MediumRectangle,
+                2 => BannerAdSize.Leaderboard,
+                _ => BannerAdSize.Banner,
             };
         }
     }

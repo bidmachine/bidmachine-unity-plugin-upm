@@ -86,6 +86,19 @@ namespace BidMachineInc.Ads.Ios
             int raw = (int)size;
             BidMachineBannerSetSize(raw);
          }
+
+	         public void SetSize(BannerAdSize size)
+	         {
+	            int raw = (size ?? BannerAdSize.Banner).ToLegacyBannerSize() switch
+	            {
+	                BannerSize.Banner => 0,
+	                BannerSize.MediumRectangle => 1,
+	                BannerSize.Leaderboard => 2,
+	                _ => 0
+	            };
+
+	            BidMachineBannerSetSize(raw);
+	         }
     }
 }
 #endif

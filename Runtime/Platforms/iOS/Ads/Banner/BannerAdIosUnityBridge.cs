@@ -1,5 +1,6 @@
 #if UNITY_IOS || BIDMACHINE_DEV
 using System.Runtime.InteropServices;
+using BidMachineInc.Ads.Api;
 
 namespace BidMachineInc.Ads.Ios
 {
@@ -37,6 +38,9 @@ namespace BidMachineInc.Ads.Ios
 
         [DllImport("__Internal")]
         private static extern void BidMachineBannerSetExpiredCallback(AdCallback onExpired);
+
+        [DllImport("__Internal")]
+        private static extern int BidMachineBannerGetAdSize();
 
         public bool CanShow()
         {
@@ -91,6 +95,19 @@ namespace BidMachineInc.Ads.Ios
         public void SetExpiredCallback(AdCallback onExpired)
         {
             BidMachineBannerSetExpiredCallback(onExpired);
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            int rawValue = BidMachineBannerGetAdSize();
+
+            return rawValue switch
+            {
+                0 => BannerAdSize.Banner,
+                1 => BannerAdSize.MediumRectangle,
+                2 => BannerAdSize.Leaderboard,
+                _ => BannerAdSize.Banner,
+            };
         }
     }
 }

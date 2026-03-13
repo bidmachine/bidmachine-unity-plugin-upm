@@ -27,9 +27,19 @@ namespace BidMachineInc.Ads.Ios
             return AdBridge.Show(yAxis, xAxis);
         }
 
+        public bool Show(int yAxis, int xAxis, IBannerView ad, BannerAdSize size)
+        {
+            return AdBridge.Show(yAxis, xAxis);
+        }
+
         public void Hide()
         {
             AdBridge.Hide();
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return AdBridge.GetBannerAdSize();
         }
 
         [MonoPInvokeCallback(typeof(AdCallback))]

@@ -59,6 +59,90 @@ namespace BidMachineInc.Ads.Android
             return jcBannerSize.GetStatic<AndroidJavaObject>(sizeName);
         }
 
+        public static AndroidJavaObject GetBannerAdSize(BannerAdSize bannerAdSize)
+        {
+            var safeBannerAdSize = bannerAdSize ?? BannerAdSize.Banner;
+
+            try
+            {
+                var jcBannerAdSize = new AndroidJavaClass("io.bidmachine.BannerAdSize");
+                if (safeBannerAdSize.IsAdaptive)
+                {
+                    return jcBannerAdSize.CallStatic<AndroidJavaObject>("adaptive", GetObject(safeBannerAdSize.Width), GetObject(safeBannerAdSize.Height));
+                }
+
+                if (safeBannerAdSize.Width == 320 && safeBannerAdSize.Height == 50)
+                {
+                    return jcBannerAdSize.GetStatic<AndroidJavaObject>("Banner");
+                }
+
+                if (safeBannerAdSize.Width == 728 && safeBannerAdSize.Height == 90)
+                {
+                    return jcBannerAdSize.GetStatic<AndroidJavaObject>("Leaderboard");
+                }
+
+                if (safeBannerAdSize.Width == 300 && safeBannerAdSize.Height == 250)
+                {
+                    return jcBannerAdSize.GetStatic<AndroidJavaObject>("MediumRectangle");
+                }
+            }
+            catch
+            {
+            }
+
+            return GetBannerSize(safeBannerAdSize.ToLegacyBannerSize());
+        }
+
+        public static AndroidJavaObject GetAdPlacementConfig(AdPlacementConfig config)
+        {
+            AndroidJavaObject builder;
+
+            switch (config.PlacementType)
+            {
+                case AdPlacementType.Banner:
+                    {
+                        var jcAdPlacementConfig = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                        builder = jcAdPlacementConfig.CallStatic<AndroidJavaObject>("bannerBuilder", GetBannerAdSize(config.BannerAdSize ?? BannerAdSize.Banner));
+                        break;
+                    }
+
+                case AdPlacementType.Interstitial:
+                    {
+                        var jcAdPlacementConfig = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                        var jcAdContentType = new AndroidJavaClass("io.bidmachine.AdContentType");
+                        var jAdContentType = jcAdContentType.GetStatic<AndroidJavaObject>(config.AdContentType.ToString());
+
+                        builder = jcAdPlacementConfig.CallStatic<AndroidJavaObject>("interstitialBuilder", jAdContentType);
+                        break;
+                    }
+
+                case AdPlacementType.Rewarded:
+                    {
+                        var jcAdPlacementConfig = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                        var jcAdContentType = new AndroidJavaClass("io.bidmachine.AdContentType");
+                        var jAdContentType = jcAdContentType.GetStatic<AndroidJavaObject>(config.AdContentType.ToString());
+
+                        builder = jcAdPlacementConfig.CallStatic<AndroidJavaObject>("rewardedBuilder", jAdContentType);
+                        break;
+                    }
+
+                default:
+                    throw new System.ArgumentException($"Unknown placement type: {config.PlacementType}");
+            }
+
+            if (!string.IsNullOrEmpty(config.PlacementId))
+            {
+                builder = builder.Call<AndroidJavaObject>("withPlacementId", GetObject(config.PlacementId));
+            }
+
+            if (config.CustomParams != null)
+            {
+                builder = builder.Call<AndroidJavaObject>("withCustomParams", GetCustomParams(config.CustomParams));
+            }
+
+            return builder.Call<AndroidJavaObject>("build");
+        }
+
         public static AndroidJavaObject GetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
             var jObject = new AndroidJavaObject("io.bidmachine.PriceFloorParams");

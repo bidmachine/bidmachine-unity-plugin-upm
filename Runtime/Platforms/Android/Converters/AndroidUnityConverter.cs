@@ -45,6 +45,43 @@ namespace BidMachineInc.Ads.Android
             };
         }
 
+        public static BannerAdSize GetBannerAdSize(AndroidJavaObject jBannerSize)
+        {
+            if (jBannerSize == null)
+            {
+                return BannerAdSize.Banner;
+            }
+
+            try
+            {
+                int width = jBannerSize.Call<int>("getWidth");
+                int height = jBannerSize.Call<int>("getHeight");
+                bool isAdaptive = jBannerSize.Call<bool>("isAdaptive");
+
+                if (isAdaptive)
+                {
+                    return BannerAdSize.Adaptive(width, height);
+                }
+
+                if (width == 320 && height == 50) return BannerAdSize.Banner;
+                if (width == 728 && height == 90) return BannerAdSize.Leaderboard;
+                if (width == 300 && height == 250) return BannerAdSize.MediumRectangle;
+
+                return BannerAdSize.Adaptive(width, height);
+            }
+            catch
+            {
+                string size = jBannerSize.Call<string>("toString");
+                return size switch
+                {
+                    "Size_320x50" => BannerAdSize.Banner,
+                    "Size_300x250" => BannerAdSize.MediumRectangle,
+                    "Size_728x90" => BannerAdSize.Leaderboard,
+                    _ => BannerAdSize.Banner,
+                };
+            }
+        }
+
         public static BMError GetError(AndroidJavaObject jObject)
         {
             return new BMError
