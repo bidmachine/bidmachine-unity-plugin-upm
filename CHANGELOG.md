@@ -1,8 +1,6 @@
-# BidMachine Unity Plugin
+# Changelog
 
-## Changelog
-
-### v3.6.0 (March 13, 2026)
+## v3.6.0 (March 13, 2026)
 
 + Updated BidMachine Android SDK to v3.6.0
 + Updated BidMachine iOS SDK to v3.6.0
